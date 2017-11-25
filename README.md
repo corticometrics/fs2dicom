@@ -8,7 +8,7 @@ Currently, only [`aseg.mgz`](http://surfer.nmr.mgh.harvard.edu/fswiki/Subcortica
 
 ### Steps
 
-1. Run at least [`recon-all -autorecon2`](https://surfer.nmr.mgh.harvard.edu/fswiki/ReconAllDevTable) on your input DICOM(s).
+1. Run Freesurfer's [`recon-all`](https://surfer.nmr.mgh.harvard.edu/fswiki/ReconAllDevTable) on your input DICOM(s) to generate `aseg.mgz`.
 
 2. Use [`mri_convert`](https://surfer.nmr.mgh.harvard.edu/pub/docs/html/mri_convert.help.xml.html) from FreeSurfer to convert `aseg.mgz` to `aseg.nii.gz`
 
