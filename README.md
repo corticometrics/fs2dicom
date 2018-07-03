@@ -20,4 +20,22 @@ Currently, only [`aseg.mgz`](http://surfer.nmr.mgh.harvard.edu/fswiki/Subcortica
 
 ### Test set
 
-Coming soon.
+The file [`fs6-dcmqi-ex-rsna2017.tar.gz`](http://slicer.kitware.com/midas3/item/324959) contains the following:
+ - `./dicom-anon`: Direcotry containting input dicoms for a FreeSurfer-compatible T1 weighted MPRAGE sequence.
+ - `aseg-t1space.nii.gz`: FreeSurfer 6.0 subcortical segmentations (this is aseg.mgz output from FreeSurfer transformed back to the original input DICOM coordinate system and converted to nifti)
+ - `fs-aseg.json`: A copy of the `fs-aseg.json` file from [this repo](https://github.com/corticometrics/fs2dicom/blob/master/fs-aseg.json)
+
+The DICOM-SEG object (`aseg.dcm`) can be created with the following command:
+```
+docker run \
+  -v $PWD:/tmp/dcmqi \
+  qiicr/dcmqi \
+  itkimage2segimage \
+    --inputDICOMDirectory /tmp/dcmqi/dicom-anon \
+    --inputMetadata /tmp/dcmqi/fs-aseg.json \
+    --inputImageList /tmp/dcmqi/aseg-t1space.nii.gz \
+    --outputDICOM /tmp/dcmqi/aseg.dcm
+    --skip
+```
+
+See the [DCMQI gitbook](https://qiicr.gitbooks.io/dicom4qi/results/seg/freesurfer.html) for details
