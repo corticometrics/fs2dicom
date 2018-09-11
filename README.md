@@ -39,3 +39,54 @@ docker run \
 ```
 
 See the [DCMQI gitbook](https://qiicr.gitbooks.io/dicom4qi/results/seg/freesurfer.html) for details
+
+## `DICOM-SR`
+
+### Work in Progress
+
+- [link](https://qiicr.gitbooks.io/dcmqi-guide/user_guide/tid1500writer.html)
+- [example json](https://github.com/QIICR/dcmqi/blob/master/doc/examples/sr-tid1500-ct-liver-example.json)
+- [st-tid1500-fs-example.json](sr-tid1500-fs-example.json)
+
+Subject-specific modifications to [st-tid1500-fs-example.json](sr-tid1500-fs-example.json)
+- `"compositeContext"` needs to point to DICOM-SEG object
+- `"imageLibrary"` needs to point to list of source MPRAGE dicoms
+- `"Measurements"->"measurementItems"-"value"` needs to be harvested from `aseg.stats`
+
+Invoking tid1500writer: 
+  - `--inputImageLibraryDirectory` should point to the directory of the source dicoms (MPRAGE dicoms)
+  - `--inputCompositeContextDirectory` should point to the directory of the dicom-seg dicom
+  - `--outputDICOM` filename of the dicom-sr to write
+  - `--inputMetadata` filename of [WIP json for aseg](sr-tid1500-fs-example.json) that has been modified for this subject
+
+Basic example
+
+From the `fs2dicom` dir:
+
+1) Get sample data
+```
+mkdir ./example
+cd ./example
+wget http://slicer.kitware.com/midas3/download/bitstream/721497/fs6-dcmqi-ex-rsna2017.tar.gz
+tar zxvf ./fs6-dcmqi-ex-rsna2017.tar.gz
+mv ./fs6-dcmqi-ex-rsna2017/* ./
+rm -rf ./fs6-dcmqi-ex-rsna2017/
+cd ..
+```
+
+2) run `tid1500writer`
+```
+docker run -v ${PWD}:/work -u ${UID}:${GID} -w /work qiicr/dcmqi \
+  tid1500writer \
+    --inputImageLibraryDirectory ./example/dicom-anon/ \
+    --inputCompositeContextDirectory ./example/ \
+    --outputDICOM ./example/output-dicom-sr.dcm \
+    --inputMetadata ./sr-tid1500-fs-example.json
+```
+
+3) run `dciodvfy`
+```
+docker run -v ${PWD}:/work -u ${UID}:${GID} -w /work \
+  --entrypoint /usr/src/dicom3tools/bin/1.4.4.0.x8664/dciodvfy qiicr/dicom3tools \
+    ./example/output-dicom-sr.dcm &> ./example/dciodvfy-dicom-sr-output.txt
+```
