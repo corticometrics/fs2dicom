@@ -44,7 +44,7 @@ See the [DCMQI gitbook](https://qiicr.gitbooks.io/dicom4qi/results/seg/freesurfe
 
 ### Work in Progress
 
-- [link](https://qiicr.gitbooks.io/dcmqi-guide/user_guide/tid1500writer.html)
+- [Instructions](https://qiicr.gitbooks.io/dcmqi-guide/user_guide/tid1500writer.html)
 - [example json](https://github.com/QIICR/dcmqi/blob/master/doc/examples/sr-tid1500-ct-liver-example.json)
 - [st-tid1500-fs-example.json](sr-tid1500-fs-example.json)
 
