@@ -90,3 +90,11 @@ docker run -v ${PWD}:/work -u ${UID}:${GID} -w /work \
   --entrypoint /usr/src/dicom3tools/bin/1.4.4.0.x8664/dciodvfy qiicr/dicom3tools \
     ./example/output-dicom-sr.dcm &> ./example/dciodvfy-dicom-sr-output.txt
 ```
+
+4) run `tid1500reader`
+```
+docker run -v ${PWD}:/work -u ${UID}:${GID} -w /work qiicr/dcmqi \
+  tid1500reader \
+    --inputDICOM ./example/output-dicom-sr.dcm \
+    --outputMetadata ./example/output-dicom-sr-to-json.json
+```
