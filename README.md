@@ -98,3 +98,4 @@ docker run -v ${PWD}:/work -u ${UID}:${GID} -w /work qiicr/dcmqi \
     --inputDICOM ./example/output-dicom-sr.dcm \
     --outputMetadata ./example/output-dicom-sr-to-json.json
 ```
+
