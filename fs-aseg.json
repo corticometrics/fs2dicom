@@ -385,111 +385,6 @@
         ]
       },
       {
-        "labelID": 19,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "labelID": 20,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "labelID": 21,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "labelID": 22,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "labelID": 23,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
         "labelID": 24,
         "SegmentDescription": "CSF",
         "SegmentedPropertyCategoryCodeSequence": {
@@ -511,27 +406,6 @@
         ]
       },
       {
-        "labelID": 25,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
         "labelID": 26,
         "SegmentDescription": "Left-Accumbens-area",
         "SegmentedPropertyCategoryCodeSequence": {
@@ -549,27 +423,6 @@
         "recommendedDisplayRGBValue": [
           255,
           165,
-          0
-        ]
-      },
-      {
-        "labelID": 27,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
           0
         ]
       },
@@ -600,38 +453,22 @@
         ]
       },
       {
-        "labelID": 29,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
         "labelID": 30,
-        "SegmentDescription": "UNUSED",
+        "SegmentDescription": "Left-vessel",
         "SegmentedPropertyCategoryCodeSequence": {
           "CodeValue": "T-D000A",
           "CodingSchemeDesignator": "SRT",
           "CodeMeaning": "Anatomical Structure"
         },
         "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
+          "CodeValue": "T-40501",
           "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
+          "CodeMeaning": "Blood Vessel of Head"
+        },
+        "SegmentedPropertyTypeModifierCodeSequence": {
+          "CodeValue": "G-A101",
+          "CodingSchemeDesignator": "SRT",
+          "CodeMeaning": "Left"
         },
         "SegmentAlgorithmType": "AUTOMATIC",
         "SegmentAlgorithmName": "fs-cmet",
@@ -665,195 +502,6 @@
           0,
           200,
           200
-        ]
-      },
-      {
-        "labelID": 32,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "labelID": 33,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "labelID": 34,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "labelID": 35,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "labelID": 36,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "labelID": 37,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "labelID": 38,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "labelID": 39,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "labelID": 40,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
         ]
       },
       {
@@ -961,27 +609,6 @@
         ]
       },
       {
-        "labelID": 45,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
         "labelID": 46,
         "SegmentDescription": "Right-Cerebellum-White-Matter",
         "SegmentedPropertyCategoryCodeSequence": {
@@ -1031,27 +658,6 @@
           230,
           148,
           34
-        ]
-      },
-      {
-        "labelID": 48,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
         ]
       },
       {
@@ -1206,69 +812,6 @@
         ]
       },
       {
-        "labelID": 55,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "labelID": 56,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "labelID": 57,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
         "labelID": 58,
         "SegmentDescription": "Right-Accumbens-area",
         "SegmentedPropertyCategoryCodeSequence": {
@@ -1286,27 +829,6 @@
         "recommendedDisplayRGBValue": [
           255,
           165,
-          0
-        ]
-      },
-      {
-        "labelID": 59,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
           0
         ]
       },
@@ -1337,38 +859,22 @@
         ]
       },
       {
-        "labelID": 61,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
         "labelID": 62,
-        "SegmentDescription": "UNUSED",
+        "SegmentDescription": "Right-vessel",
         "SegmentedPropertyCategoryCodeSequence": {
           "CodeValue": "T-D000A",
           "CodingSchemeDesignator": "SRT",
           "CodeMeaning": "Anatomical Structure"
         },
         "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
+          "CodeValue": "T-40501",
           "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
+          "CodeMeaning": "Blood Vessel of Head"
+        },
+        "SegmentedPropertyTypeModifierCodeSequence": {
+          "CodeValue": "G-A100",
+          "CodingSchemeDesignator": "SRT",
+          "CodeMeaning": "Right"
         },
         "SegmentAlgorithmType": "AUTOMATIC",
         "SegmentAlgorithmName": "fs-cmet",
@@ -1405,174 +911,6 @@
         ]
       },
       {
-        "labelID": 64,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "labelID": 65,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "labelID": 66,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "labelID": 67,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "labelID": 68,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "labelID": 69,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "labelID": 70,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "labelID": 71,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
         "labelID": 72,
         "SegmentDescription": "5th-Ventricle",
         "SegmentedPropertyCategoryCodeSequence": {
@@ -1591,90 +929,6 @@
           120,
           190,
           150
-        ]
-      },
-      {
-        "labelID": 73,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "labelID": 74,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "labelID": 75,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "labelID": 76,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
         ]
       },
       {
@@ -1811,48 +1065,6 @@
           164,
           108,
           226
-        ]
-      },
-      {
-        "labelID": 83,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
-        ]
-      },
-      {
-        "labelID": 84,
-        "SegmentDescription": "UNUSED",
-        "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
-        },
-        "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-D0050",
-          "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Tissue"
-        },
-        "SegmentAlgorithmType": "AUTOMATIC",
-        "SegmentAlgorithmName": "fs-cmet",
-        "recommendedDisplayRGBValue": [
-          0,
-          0,
-          0
         ]
       },
       {
