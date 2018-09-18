@@ -52,6 +52,7 @@ Subject-specific modifications to [st-tid1500-fs-example.json](sr-tid1500-fs-exa
 - `"compositeContext"` needs to point to DICOM-SEG object
 - `"imageLibrary"` needs to point to list of source MPRAGE dicoms
 - `"Measurements"->"measurementItems"-"value"` needs to be harvested from `aseg.stats`
+- `"Measurements"->"SourceSeriesForImageSegmentation"` needs to be set to the DICOM "Series Instance UID Attribute" (0020,000E)
 
 Invoking tid1500writer: 
   - `--inputImageLibraryDirectory` should point to the directory of the source dicoms (MPRAGE dicoms)
@@ -81,7 +82,7 @@ docker run -v ${PWD}:/work -u ${UID}:${GID} -w /work qiicr/dcmqi \
     --inputImageLibraryDirectory ./example/dicom-anon/ \
     --inputCompositeContextDirectory ./example/ \
     --outputDICOM ./example/output-dicom-sr.dcm \
-    --inputMetadata ./sr-tid1500-fs-example.json
+    --inputMetadata ./fs-aseg-sr-template.json
 ```
 
 3) run `dciodvfy`
