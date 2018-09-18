@@ -78,6 +78,18 @@ docker run \
     --inputMetadata /work/fs-aseg-sr-template.json
 ```
 
+Generate DICOM-SR with norm stats
+```
+docker run \
+  -v /home/paul/cmet/git/fs2dicom/:/work \
+  qiicr/dcmqi \
+  tid1500writer \
+    --inputImageLibraryDirectory /work/fs2dicom-rsna2018-example/dicoms \
+    --inputCompositeContextDirectory /work/fs2dicom-rsna2018-example/fs-subs/m28 \
+    --outputDICOM /work/fs2dicom-rsna2018-example/fs-subs/m28/output-dicom-sr.dcm \
+    --inputMetadata /work/fs-aseg-sr-template-with-normstats.json
+```
+
 Interative
 ```
 docker run \
@@ -111,6 +123,8 @@ docker run -it --rm \
     - CC (labels 251-255)
       - see: http://dicom.nema.org/medical/Dicom/2017e/output/chtml/part16/sect_CID_2.html
 - how to encode norm stats?
+  - attempt in `fs-aseg-sr-template-with-normstats.json`
+  - see discussion [here](https://github.com/QIICR/dcmqi/issues/305)
 - make wrapper for fs
 - fs data for ex? 
   - s3://cmet-scratch/dcmqi-test-dataset/
