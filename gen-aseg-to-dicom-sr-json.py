@@ -34,19 +34,19 @@ dcm_filelist = []
 dcm_series_uid = pydicom.dcmread(args.source_dicom_filename).SeriesInstanceUID 
 dicom_dir = os.path.dirname(args.source_dicom_filename)
 for f in os.listdir(dicom_dir):
-	try:
-		if (pydicom.dcmread(os.path.join(dicom_dir, f)).SeriesInstanceUID == dcm_series_uid):
-			dcm_filelist.append(f)
-	except:
-		pass
+    try:
+        if (pydicom.dcmread(os.path.join(dicom_dir, f)).SeriesInstanceUID == dcm_series_uid):
+            dcm_filelist.append(f)
+    except:
+        pass
 #print(dcm_filelist)
 
 # Read in aseg.stats
 aseg_stats = []
 with open(args.aseg_stats_filename) as csvfile:
-	csvreader = csv.reader(csvfile, delimiter=',', quotechar='|')
-	for row in csvreader:
-		aseg_stats.append(row)
+    csvreader = csv.reader(csvfile, delimiter=',', quotechar='|')
+    for row in csvreader:
+        aseg_stats.append(row)
 #print(aseg_stats)
 
 # Read in template json

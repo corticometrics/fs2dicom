@@ -22,7 +22,7 @@ with open(args.aseg_to_dicom_seg_json) as f:
 
 label_set = set([])
 for label in dcm_seg_data["segmentAttributes"][0]:
-	label_set.add(label["labelID"])
+    label_set.add(label["labelID"])
 
 # As of fs v6.0.1, the following labels are included in aseg.mgz, but not in 
 # aseg.stats, so remove them from the label set
