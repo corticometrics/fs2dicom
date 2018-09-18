@@ -418,6 +418,11 @@
           "CodingSchemeDesignator": "SRT",
           "CodeMeaning": "Nucleus Accumbens"
         },
+        "SegmentedPropertyTypeModifierCodeSequence": {
+          "CodeValue": "G-A101",
+          "CodingSchemeDesignator": "SRT",
+          "CodeMeaning": "Left"
+        },
         "SegmentAlgorithmType": "AUTOMATIC",
         "SegmentAlgorithmName": "fs-cmet",
         "recommendedDisplayRGBValue": [
@@ -598,7 +603,7 @@
         "SegmentedPropertyTypeModifierCodeSequence": {
           "CodeValue": "G-A100",
           "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Rightt"
+          "CodeMeaning": "Right"
         },
         "SegmentAlgorithmType": "AUTOMATIC",
         "SegmentAlgorithmName": "fs-cmet",
@@ -751,6 +756,11 @@
           "CodingSchemeDesignator": "SRT",
           "CodeMeaning": "Globus Pallidus"
         },
+        "SegmentedPropertyTypeModifierCodeSequence": {
+          "CodeValue": "G-A100",
+          "CodingSchemeDesignator": "SRT",
+          "CodeMeaning": "Right"
+        },
         "SegmentAlgorithmType": "AUTOMATIC",
         "SegmentAlgorithmName": "fs-cmet",
         "recommendedDisplayRGBValue": [
@@ -823,6 +833,11 @@
           "CodeValue": "T-A0149",
           "CodingSchemeDesignator": "SRT",
           "CodeMeaning": "Nucleus Accumbens"
+        },
+        "SegmentedPropertyTypeModifierCodeSequence": {
+          "CodeValue": "G-A100",
+          "CodingSchemeDesignator": "SRT",
+          "CodeMeaning": "Right"
         },
         "SegmentAlgorithmType": "AUTOMATIC",
         "SegmentAlgorithmName": "fs-cmet",
@@ -1008,9 +1023,9 @@
         "labelID": 80,
         "SegmentDescription": "non-WM-hypointensities",
         "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
+          "CodeValue": "M-01000",
           "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
+          "CodeMeaning": "Morphologically Abnormal Structure"
         },
         "SegmentedPropertyTypeCodeSequence": {
           "CodeValue": "T-D0050",
@@ -1029,14 +1044,19 @@
         "labelID": 81,
         "SegmentDescription": "Left-non-WM-hypointensities",
         "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
+          "CodeValue": "M-01000",
           "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
+          "CodeMeaning": "Morphologically Abnormal Structure"
         },
         "SegmentedPropertyTypeCodeSequence": {
           "CodeValue": "T-D0050",
           "CodingSchemeDesignator": "SRT",
           "CodeMeaning": "Tissue"
+        },
+        "SegmentedPropertyTypeModifierCodeSequence": {
+          "CodeValue": "G-A101",
+          "CodingSchemeDesignator": "SRT",
+          "CodeMeaning": "Left"
         },
         "SegmentAlgorithmType": "AUTOMATIC",
         "SegmentAlgorithmName": "fs-cmet",
@@ -1050,14 +1070,19 @@
         "labelID": 82,
         "SegmentDescription": "Right-non-WM-hypointensities",
         "SegmentedPropertyCategoryCodeSequence": {
-          "CodeValue": "T-D000A",
+          "CodeValue": "M-01000",
           "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Anatomical Structure"
+          "CodeMeaning": "Morphologically Abnormal Structure"
         },
         "SegmentedPropertyTypeCodeSequence": {
           "CodeValue": "T-D0050",
           "CodingSchemeDesignator": "SRT",
           "CodeMeaning": "Tissue"
+        },
+        "SegmentedPropertyTypeModifierCodeSequence": {
+          "CodeValue": "G-A100",
+          "CodingSchemeDesignator": "SRT",
+          "CodeMeaning": "Right"
         },
         "SegmentAlgorithmType": "AUTOMATIC",
         "SegmentAlgorithmName": "fs-cmet",
@@ -1101,6 +1126,11 @@
           "CodingSchemeDesignator": "SRT",
           "CodeMeaning": "Corpus Callosum"
         },
+        "SegmentedPropertyTypeModifierCodeSequence": {
+          "CodeValue": "R-404CE",
+          "CodingSchemeDesignator": "SRT",
+          "CodeMeaning": "Posterior"
+        },
         "SegmentAlgorithmType": "AUTOMATIC",
         "SegmentAlgorithmName": "fs-cmet",
         "recommendedDisplayRGBValue": [
@@ -1121,6 +1151,11 @@
           "CodeValue": "T-A2700",
           "CodingSchemeDesignator": "SRT",
           "CodeMeaning": "Corpus Callosum"
+        },
+        "SegmentedPropertyTypeModifierCodeSequence": {
+          "CodeValue": "R-404CE",
+          "CodingSchemeDesignator": "SRT",
+          "CodeMeaning": "Posterior"
         },
         "SegmentAlgorithmType": "AUTOMATIC",
         "SegmentAlgorithmName": "fs-cmet",
@@ -1143,6 +1178,11 @@
           "CodingSchemeDesignator": "SRT",
           "CodeMeaning": "Corpus Callosum"
         },
+        "SegmentedPropertyTypeModifierCodeSequence": {
+          "CodeValue": "G-A110",
+          "CodingSchemeDesignator": "SRT",
+          "CodeMeaning": "Central"
+        },
         "SegmentAlgorithmType": "AUTOMATIC",
         "SegmentAlgorithmName": "fs-cmet",
         "recommendedDisplayRGBValue": [
@@ -1164,6 +1204,11 @@
           "CodingSchemeDesignator": "SRT",
           "CodeMeaning": "Corpus Callosum"
         },
+        "SegmentedPropertyTypeModifierCodeSequence": {
+          "CodeValue": "R-404CC",
+          "CodingSchemeDesignator": "SRT",
+          "CodeMeaning": "Anterior"
+        },
         "SegmentAlgorithmType": "AUTOMATIC",
         "SegmentAlgorithmName": "fs-cmet",
         "recommendedDisplayRGBValue": [
@@ -1174,7 +1219,7 @@
       },
       {
         "labelID": 255,
-        "SegmentDescription": "CC_Mid_Anterior",
+        "SegmentDescription": "CC_Anterior",
         "SegmentedPropertyCategoryCodeSequence": {
           "CodeValue": "T-D000A",
           "CodingSchemeDesignator": "SRT",
@@ -1184,6 +1229,11 @@
           "CodeValue": "T-A2700",
           "CodingSchemeDesignator": "SRT",
           "CodeMeaning": "Corpus Callosum"
+        },
+        "SegmentedPropertyTypeModifierCodeSequence": {
+          "CodeValue": "R-404CC",
+          "CodingSchemeDesignator": "SRT",
+          "CodeMeaning": "Anterior"
         },
         "SegmentAlgorithmType": "AUTOMATIC",
         "SegmentAlgorithmName": "fs-cmet",
