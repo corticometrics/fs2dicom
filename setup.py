@@ -9,7 +9,7 @@ import versioneer
 # and/or pip.
 if sys.version_info < (3, 6):
     error = """
-fs2dicom does not support Python {0}.{2}.
+fs2dicom does not support Python {0}.{1}.
 Python 3.6 and above is required. Check your Python version like so:
 
 python3 --version
@@ -18,7 +18,7 @@ This may be due to an out-of-date pip. Make sure you have pip >= 9.0.1.
 Upgrade pip like so:
 
 pip install --upgrade pip
-""".format(3, 6)
+""".format(sys.version_info.major, sys.version_info.minor)
     sys.exit(error)
 
 here = path.abspath(path.dirname(__file__))
