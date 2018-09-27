@@ -27,6 +27,7 @@ sr_template = os.path.join(TEMPLATE_PATH, sr_template_filename)
 
 no_fs_license_message = 'Path to FreeSurfer License file is needed. Pass it with the --fs_license_key flag, or set the environment variable FS_LICENSE_KEY'
 
+
 # basic defs
 def run_docker_commands(commands, docker_image, volumes, environment, pull=False):
     client = docker.from_env()
@@ -87,6 +88,7 @@ def get_aseg_stats_dataframe(aseg_stats_file):
 
     return aseg_data
 
+
 def get_dicom_tag_value(dicom_file, tag):
     dcm = pydicom.dcmread(dicom_file)
     tag_value = dcm[tag].value
@@ -116,6 +118,7 @@ def get_t1_dicom_files_dict(t1_dicom_file):
 #     find_matching_label_name()
 #     add_to_template(label_name, segno, label_dict, stats_file)
 
+
 def generate_aseg_dicom_sr_metadata(dicom_sr_template, aseg_dicom_seg_file, t1_dicom_file, aseg_dicom_sr_metadata, aseg_stats_file):
     """
 
@@ -131,7 +134,6 @@ def generate_aseg_dicom_sr_metadata(dicom_sr_template, aseg_dicom_seg_file, t1_d
         t1_dicom_files = t1_files_dict[key]
         t1_dicom_series_instance_uid = key
 
-
     aseg_dicom_filename = os.path.basename(aseg_dicom_seg_file)
     dicom_seg_instance_uid = get_dicom_tag_value(aseg_dicom_seg_file, SeriesInstanceUID)
     aseg_stats_data = get_aseg_stats_dataframe(aseg_stats_file)
@@ -139,14 +141,12 @@ def generate_aseg_dicom_sr_metadata(dicom_sr_template, aseg_dicom_seg_file, t1_d
     env = Environment(loader=FileSystemLoader(template_path))
     template = env.get_template(sr_template_filename)
 
-    template_vars = {
-        'aseg_dicom_seg_file': aseg_dicom_filename
-        't1_dicom_files': t1_dicom_files,
-        't1_dicom_series_instance_uid': t1_dicom_series_instance_uid,
-        'dicom_seg_instance_uid': dicom_seg_instance_uid,
-        'aseg_dicom_seg_metadata': aseg_dicom_seg_metadata,
-        'aseg_stats_data': aseg_stats_data
-    }
+    template_vars = {'aseg_dicom_seg_file': aseg_dicom_filename,
+                     't1_dicom_files': t1_dicom_files,
+                     't1_dicom_series_instance_uid': t1_dicom_series_instance_uid,
+                     'dicom_seg_instance_uid': dicom_seg_instance_uid,
+                     'aseg_dicom_seg_metadata': aseg_dicom_seg_metadata,
+                     'aseg_stats_data': aseg_stats_data}
 
     template.stream(template_vars).dump(aseg_dicom_sr_metadata)
 
@@ -157,7 +157,10 @@ def get_generate_dicom_sr_cmd(t1_dicom_file, aseg_dicom_seg_dir, aseg_dicom_sr_o
     t1_dicom_dir = os.path.dirname(t1_dicom_file)
     aseg_dicom_seg_dir = os.path.dirname(aseg_dicom_seg_file)
 
-    return command_template.format()
+    return command_template.format(t1_dicom_dir=t1_dicom_dir,
+                                   aseg_dicom_seg_dir=aseg_dicom_seg_dir,
+                                   aseg_dicom_sr_output=aseg_dicom_sr_output,
+                                   aseg_dicom_sr_metadata=aseg_dicom_sr_metadata)
 
 
 # help messages:
@@ -248,6 +251,7 @@ def create_dicom_sr(aseg_stats_file,  aseg_dicom_seg_file, aseg_dicom_sr_metadat
      - generate dicom sr
     """
     ...
+
 
 cli.add_command(create_dicom_seg)
 cli.add_command(create_dicom_sr)
