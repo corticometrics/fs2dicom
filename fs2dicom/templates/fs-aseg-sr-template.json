@@ -9,8 +9,8 @@
     "{{ aseg_dicom_seg_file }}"
   ],
 
-  "imageLibrary": [{% for item in t1_dicom_files %}
-    "{{ item }}",{% endfor %}
+  "imageLibrary": [{% for dcm in t1_dicom_files %}
+    "{{ dcm }}",{% endfor %}
   ],
 
   "observerContext": {

@@ -15,7 +15,11 @@ from jinja2 import Environment, FileSystemLoader
 
 CONTEXT_SETTINGS = {'help_option_names': ['-h', '--help']}
 
+SeriesInstanceUID = (0x0020, 0x000e)
+SOPInstanceUID = (0x0008, 0x0018)
+
 TEMPLATE_PATH = pkg_resources.resource_filename('fs2dicom', 'templates')
+
 aseg_metadata_filename = 'fs-aseg.json'
 sr_template_filename = 'fs-aseg-sr-template.json'
 aseg_metadata = os.path.join(TEMPLATE_PATH, aseg_metadata_filename)
@@ -83,20 +87,28 @@ def get_aseg_stats_dataframe(aseg_stats_file):
 
     return aseg_data
 
+def get_dicom_tag_value(dicom_file, tag):
+    dcm = pydicom.dcmread(dicom_file)
+    tag_value = dcm[tag].value
 
-def get_t1_dicom_files(t1_dicom_file):
+    return str(tag_value)
+
+
+def get_t1_dicom_files_dict(t1_dicom_file):
+    """ (file) -> dict(str: [str])
+    """
     t1_dicom_files = []
 
-    t1_dicom_series_uid = pydicom.dcmread(t1_dicom_file).SeriesInstanceUID
+    t1_dicom_series_uid = get_dicom_tag_value(t1_dicom_file, SeriesInstanceUID)
     t1_dicom_dir = os.path.dirname(t1_dicom_file)
 
     for dcm in os.listdir(t1_dicom_dir):
-        dcm_path = os.path.join(dicom_dir, dcm)
-        dcm_series_uid = pydicom.dcmread(dcm_path).SeriesInstanceUID
+        dcm_file_path = os.path.join(t1_dicom_dir, dcm)
+        dcm_series_uid = get_dicom_tag_value(dcm_file_path, SeriesInstanceUID)
         if dcm_series_uid == t1_dicom_series_uid:
-            t1_dicom_files.append(f)
+            t1_dicom_files.append(dcm)
 
-    return t1_dicom_files
+    return {str(t1_dicom_series_uid): t1_dicom_files}
 
 # ## need {seg_number: label_name} dict to make sure aseg.csv matches label names
 # ## rewrite a simple parser instead?
@@ -104,18 +116,27 @@ def get_t1_dicom_files(t1_dicom_file):
 #     find_matching_label_name()
 #     add_to_template(label_name, segno, label_dict, stats_file)
 
-def generate_aseg_dicom_sr_metadata(dicom_sr_template, aseg_dicom_seg_file, t1_dicom_files, aseg_dicom_sr_metadata):
+def generate_aseg_dicom_sr_metadata(dicom_sr_template, aseg_dicom_seg_file, t1_dicom_file, aseg_dicom_sr_metadata, aseg_stats_file):
     """
 
     Use jinja2 template to fill in values, based on pdf-report code and
     https://gist.github.com/sevennineteen/4400462
 
-
-    may just be easier to use regular strings?
     """
-    ...
-    env = Environment(loader=FileSystemLoader(TEMPLATE_PATH))
-    env.filters['jsonify'] = json.dumps
+    template_path = os.path.dirname(dicom_sr_template)
+    sr_template_filename = os.path.dirname(dicom_sr_template)
+
+    t1_files_dict = get_t1_dicom_files_dict(t1_dicom_file)
+    for key in t1_files_dict:
+        t1_dicom_files = t1_files_dict[key]
+        t1_dicom_series_instance_uid = key
+
+
+    aseg_dicom_filename = os.path.basename(aseg_dicom_seg_file)
+    dicom_seg_instance_uid = get_dicom_tag_value(aseg_dicom_seg_file, SeriesInstanceUID)
+    aseg_stats_data = get_aseg_stats_dataframe(aseg_stats_file)
+
+    env = Environment(loader=FileSystemLoader(template_path))
     template = env.get_template(sr_template_filename)
 
     template_vars = {
@@ -130,8 +151,13 @@ def generate_aseg_dicom_sr_metadata(dicom_sr_template, aseg_dicom_seg_file, t1_d
     template.stream(template_vars).dump(aseg_dicom_sr_metadata)
 
 
-def get_generate_dicom_sr_cmd():
-    ...
+def get_generate_dicom_sr_cmd(t1_dicom_file, aseg_dicom_seg_dir, aseg_dicom_sr_output, aseg_dicom_sr_metadata):
+    command_template = 'tid1500writer --inputImageLibraryDirectory {t1_dicom_dir} --inputCompositeContextDirectory {aseg_dicom_seg_dir} --outputDICOM {aseg_dicom_sr_output} --inputMetadata {aseg_dicom_sr_metadata}'
+
+    t1_dicom_dir = os.path.dirname(t1_dicom_file)
+    aseg_dicom_seg_dir = os.path.dirname(aseg_dicom_seg_file)
+
+    return command_template.format()
 
 
 # help messages:
