@@ -27,7 +27,7 @@
   "Measurements": [{% for measurement in aseg_dicom_metadata['segmentAttributes'][0] %}
       {
         "TrackingIdentifier": "{{ measurement.SegmentDescription }}",
-        "ReferencedSegment": "{{ measurement.labelID }}",
+        "ReferencedSegment": {{ measurement.labelID }},
         "SourceSeriesForImageSegmentation": "{{ t1_dicom_series_instance_uid }}",
         "segmentationSOPInstanceUID": "{{ dicom_seg_instance_uid }}",
         "Finding": { {% for k in measurement.SegmentedPropertyCategoryCodeSequence %}
@@ -38,7 +38,7 @@
         },
         "measurementItems": [
           {
-            "value": "{{ aseg_stats_data[aseg_stats_data.SegId==measurement.labelID].Volume_mm3.values[0] }}",
+            "value": {{ aseg_stats_data[aseg_stats_data.SegId==measurement.labelID].Volume_mm3.values[0] }},
             "quantity": {
               "CodeValue": "G-D705",
               "CodingSchemeDesignator": "SRT",
