@@ -8,6 +8,7 @@ import sys
 import tempfile
 
 import click
+import numpy as np
 import pandas as pd
 import pydicom
 from jinja2 import Environment, FileSystemLoader
@@ -75,18 +76,40 @@ def get_generate_dicom_seg_cmd(resampled_aseg, aseg_dicom_seg_metadata, t1_dicom
                                    aseg_dicom_seg_output=aseg_dicom_seg_output)
 
 
+def add_gm_wm_to_dataframe(aseg_dataframe, aseg_stats_file):
+    label_dict = {'Left-Cerebral-White-Matter': [2],
+                  'Left-Cerebral-Cortex': [3],
+                  'Right-Cerebral-White-Matter': [41],
+                  'Right-Cerebral-Cortex': [42]}
+
+    with open(aseg_stats_file) as f:
+        for line in f:
+            if 'lhCerebralWhiteMatter' in line:
+                label_dict['Left-Cerebral-White-Matter'].append(float(line.split(',')[-2]))
+            if 'rhCerebralWhiteMatter' in line:
+                label_dict['Right-Cerebral-White-Matter'].append(float(line.split(',')[-2]))
+            if 'lhCortex' in line:
+                label_dict['Left-Cerebral-Cortex'].append(float(line.split(',')[-2]))
+            if 'rhCortex' in line:
+                label_dict['Right-Cerebral-Cortex'].append(float(line.split(',')[-2]))
+    # create list of dicts for each column, with np.nan for values not available
+
+
+
 # create_dicom_sr
 def get_aseg_stats_dataframe(aseg_stats_file):
     column_headers = ['SegId', 'NVoxels', 'Volume_mm3', 'StructName', 'normMean', 'normStdDev', 'normMin', 'normMax', 'normRange']
 
-    aseg_data = pd.read_table(aseg_stats_file,
+    aseg_dataframe = pd.read_table(aseg_stats_file,
                               delim_whitespace=True,
                               header=None,
                               comment='#',
                               index_col=0,
                               names=column_headers)
 
-    return aseg_data
+    aseg_gm_wm_dataframe = add_gm_wm_to_dataframe(aseg_dataframe, aseg_stats_file)
+
+    return aseg_gm_wm_dataframe
 
 
 def get_dicom_tag_value(dicom_file, tag):

@@ -2,5 +2,6 @@
 click
 docker
 jinja2
+numpy
 pandas
 pydicom
