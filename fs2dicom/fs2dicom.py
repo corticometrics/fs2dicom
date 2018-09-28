@@ -1,5 +1,5 @@
 import base64
-import json
+import distutils
 import pkg_resources
 import os
 import shlex
@@ -8,10 +8,11 @@ import sys
 import tempfile
 
 import click
+import docker
+import jinja2
 import numpy as np
 import pandas as pd
 import pydicom
-from jinja2 import Environment, FileSystemLoader
 
 
 CONTEXT_SETTINGS = {'help_option_names': ['-h', '--help']}
@@ -26,17 +27,32 @@ sr_template_filename = 'fs-aseg-sr-template.json'
 aseg_metadata = os.path.join(TEMPLATE_PATH, aseg_metadata_filename)
 sr_template = os.path.join(TEMPLATE_PATH, sr_template_filename)
 
-no_fs_license_message = 'Path to FreeSurfer License file is needed. Pass it with the --fs_license_key flag, or set the environment variable FS_LICENSE_KEY'
+no_fs_license_message = '''\
+Path to FreeSurfer License file is needed.
+Pass it with the --fs_license_key flag,
+or set the environment variable FS_LICENSE_KEY'''
 
 
 # basic defs
+def check_for_docker():
+    docker_available = distutils.spawn.find_executable('docker')
+    if not docker_available:
+        sys.exit('''\
+            docker not available on your system.
+            either install docker (https://docs.docker.com/install/),
+            or run FreeSurfer/dcmqi commands locally (using the "local" option)''')
+
+
 def run_docker_commands(commands, docker_image, volumes, environment, pull=False):
     client = docker.from_env()
 
     if pull:
         client.images.pull(docker_image)
     for command in commands:
-        client.containers.run(docker_image, command=shlex.split(command), volumes=volumes, environment=environment)
+        client.containers.run(docker_image,
+                              command=shlex.split(command),
+                              volumes=volumes,
+                              environment=environment)
     client.close()
 
 
@@ -58,7 +74,13 @@ def base64_convert(file):
 
 # create_dicom_seg
 def get_resample_aseg_cmd(aseg_image_file, t1_dicom_file, output_dir):
-    command_template = 'mri_vol2vol --mov {aseg_image_file} --targ {t1_dicom_file} --regheader --nearest --o {output_dir}/aseg_native_space.nii.gz'
+    command_template = '''\
+    mri_vol2vol \
+    --mov {aseg_image_file} \
+    --targ {t1_dicom_file} \
+    --regheader \
+    --nearest \
+    --o {output_dir}/aseg_native_space.nii.gz'''
 
     return command_template.format(aseg_image_file=aseg_image_file,
                                    t1_dicom_file=t1_dicom_file,
@@ -66,7 +88,13 @@ def get_resample_aseg_cmd(aseg_image_file, t1_dicom_file, output_dir):
 
 
 def get_generate_dicom_seg_cmd(resampled_aseg, aseg_dicom_seg_metadata, t1_dicom_file, aseg_dicom_seg_output):
-    command_template = 'itkimage2segimage --inputDICOMDirectory {t1_dicom_dir} --inputMetadata {aseg_dicom_seg_metadata} --inputImageList {resampled_aseg} --outputDICOM {aseg_dicom_seg_output} --skip'
+    command_template = '''\
+    itkimage2segimage\
+    --inputDICOMDirectory {t1_dicom_dir} \
+    --inputMetadata {aseg_dicom_seg_metadata}\
+    --inputImageList {resampled_aseg}\
+    --outputDICOM {aseg_dicom_seg_output}\
+    --skip'''
 
     t1_dicom_dir = os.path.dirname(t1_dicom_file)
 
@@ -89,7 +117,6 @@ def add_gm_wm_to_dataframe(aseg_dataframe, aseg_stats_file):
 
     def get_volume(line):
         return float(line.split(',')[-2])
-
 
     label_stats = []
     with open(aseg_stats_file) as f:
@@ -116,14 +143,22 @@ def add_gm_wm_to_dataframe(aseg_dataframe, aseg_stats_file):
 
 # create_dicom_sr
 def get_aseg_stats_dataframe(aseg_stats_file):
-    column_headers = ['SegId', 'NVoxels', 'Volume_mm3', 'StructName', 'normMean', 'normStdDev', 'normMin', 'normMax', 'normRange']
+    column_headers = ['SegId',
+                      'NVoxels',
+                      'Volume_mm3',
+                      'StructName',
+                      'normMean',
+                      'normStdDev',
+                      'normMin',
+                      'normMax',
+                      'normRange']
 
     aseg_dataframe = pd.read_table(aseg_stats_file,
-                              delim_whitespace=True,
-                              header=None,
-                              comment='#',
-                              index_col=0,
-                              names=column_headers)
+                                   delim_whitespace=True,
+                                   header=None,
+                                   comment='#',
+                                   index_col=0,
+                                   names=column_headers)
 
     aseg_gm_wm_dataframe = add_gm_wm_to_dataframe(aseg_dataframe, aseg_stats_file)
 
@@ -160,7 +195,11 @@ def get_t1_dicom_files_dict(t1_dicom_file):
 #     add_to_template(label_name, segno, label_dict, stats_file)
 
 
-def generate_aseg_dicom_sr_metadata(dicom_sr_template, aseg_dicom_seg_file, t1_dicom_file, aseg_dicom_sr_metadata, aseg_stats_file):
+def generate_aseg_dicom_sr_metadata(dicom_sr_template,
+                                    aseg_dicom_seg_file,
+                                    t1_dicom_file,
+                                    aseg_dicom_sr_metadata,
+                                    aseg_stats_file):
     """
 
     Use jinja2 template to fill in values, based on pdf-report code and
@@ -179,7 +218,7 @@ def generate_aseg_dicom_sr_metadata(dicom_sr_template, aseg_dicom_seg_file, t1_d
     dicom_seg_instance_uid = get_dicom_tag_value(aseg_dicom_seg_file, SeriesInstanceUID)
     aseg_stats_data = get_aseg_stats_dataframe(aseg_stats_file)
 
-    env = Environment(loader=FileSystemLoader(template_path))
+    env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_path))
     template = env.get_template(sr_template_filename)
 
     template_vars = {'aseg_dicom_seg_file': aseg_dicom_filename,
@@ -192,8 +231,16 @@ def generate_aseg_dicom_sr_metadata(dicom_sr_template, aseg_dicom_seg_file, t1_d
     template.stream(template_vars).dump(aseg_dicom_sr_metadata)
 
 
-def get_generate_dicom_sr_cmd(t1_dicom_file, aseg_dicom_seg_dir, aseg_dicom_sr_output, aseg_dicom_sr_metadata):
-    command_template = 'tid1500writer --inputImageLibraryDirectory {t1_dicom_dir} --inputCompositeContextDirectory {aseg_dicom_seg_dir} --outputDICOM {aseg_dicom_sr_output} --inputMetadata {aseg_dicom_sr_metadata}'
+def get_generate_dicom_sr_cmd(t1_dicom_file,
+                              aseg_dicom_seg_dir,
+                              aseg_dicom_sr_output,
+                              aseg_dicom_sr_metadata):
+    command_template = '''\
+    tid1500writer \
+    --inputImageLibraryDirectory {t1_dicom_dir} \
+    --inputCompositeContextDirectory {aseg_dicom_seg_dir} \
+    --outputDICOM {aseg_dicom_sr_output} \
+    --inputMetadata {aseg_dicom_sr_metadata}'''
 
     t1_dicom_dir = os.path.dirname(t1_dicom_file)
     aseg_dicom_seg_dir = os.path.dirname(aseg_dicom_seg_file)
@@ -205,24 +252,57 @@ def get_generate_dicom_sr_cmd(t1_dicom_file, aseg_dicom_seg_dir, aseg_dicom_sr_o
 
 
 # help messages:
-dcmqi_type_help = 'Use docker or local installed version of dcmqi (default: docker)'
-dcmqi_docker_image_help = 'Name of the dcmqi docker image (default: qiicr/dcmqi:latest)'
-freesurfer_type_help = 'Use docker or local installed version of freesurfer (default: docker)'
-freesurfer_docker_image_help = 'Name of the FreeSurfer docker image. Currently only supports corticometrics/fs6-base (default: corticometrics/fs6-base:latest)'
-fs_license_key_help = 'Path to FreeSurfer License key file. (default: path set by environment variable FS_LICENSE_KEY)'
-aseg_dicom_seg_metadata_help = 'Path to the DICOM SEG metadata schema describing the aseg (default: provided within package)'
-t1_dicom_file_help = 'Path to one of the DICOM files of the T1-weighted image processed with FreeSurfer to create the aseg.'
-dicom_sr_template_help = 'Path to DICOM SR template that is filled in with aseg.stats values (default: provided within package)'
+dcmqi_type_help = '''\
+Use docker or local installed version of dcmqi \
+(default: docker)'''
+dcmqi_docker_image_help = '''\
+Name of the dcmqi docker image \
+(default: qiicr/dcmqi:latest)'''
+freesurfer_type_help = '''\
+Use docker or local installed version of freesurfer \
+(default: docker)'''
+freesurfer_docker_image_help = '''\
+Name of the FreeSurfer docker image. \
+Currently only supports corticometrics/fs6-base \
+(default: corticometrics/fs6-base:latest)'''
+fs_license_key_help = '''\
+Path to FreeSurfer License key file. \
+(default: path set by environment variable FS_LICENSE_KEY)'''
+aseg_dicom_seg_metadata_help = '''\
+Path to the DICOM SEG metadata schema describing the aseg \
+(default: provided within package)'''
+t1_dicom_file_help = '''\
+Path to one of the DICOM files of the T1-weighted image processed with FreeSurfer to create the aseg.'''
+dicom_sr_template_help = '''\
+Path to DICOM SR template that is filled in with aseg.stats values \
+(default: provided within package)'''
 
 
 @click.group(context_settings=CONTEXT_SETTINGS)
-@click.option('--dcmqi_type', type=click.Choice(['docker', 'local']), default='docker', help=dcmqi_type_help)
-@click.option('--dcmqi_docker_image', default='qiicr/dcmqi:latest', help=dcmqi_docker_image_help)
-@click.option('--freesurfer_type', type=click.Choice(['docker', 'local']), default='docker', help=freesurfer_type_help)
-@click.option('--freesurfer_docker_image', default='corticometrics/fs6-base:latest', help=freesurfer_docker_image_help)
-@click.option('--fs_license_key', envvar='FS_LICENSE_KEY', help=fs_license_key_help)
+@click.option('--dcmqi_type',
+              type=click.Choice(['docker', 'local']),
+              default='docker',
+              help=dcmqi_type_help)
+@click.option('--dcmqi_docker_image',
+              default='qiicr/dcmqi:latest',
+              help=dcmqi_docker_image_help)
+@click.option('--freesurfer_type',
+              type=click.Choice(['docker', 'local']),
+              default='docker',
+              help=freesurfer_type_help)
+@click.option('--freesurfer_docker_image',
+              default='corticometrics/fs6-base:latest',
+              help=freesurfer_docker_image_help)
+@click.option('--fs_license_key',
+              envvar='FS_LICENSE_KEY',
+              help=fs_license_key_help)
 @click.pass_context
-def cli(ctx, dcmqi_type, dcmqi_docker_image, freesurfer_type, freesurfer_docker_image,  fs_license_key):
+def cli(ctx,
+        dcmqi_type,
+        dcmqi_docker_image,
+        freesurfer_type,
+        freesurfer_docker_image,
+        fs_license_key):
     """
     Create DICOM Segmentation Image and Structured Report objects from FreeSurfer segmentations.
 
@@ -231,30 +311,45 @@ def cli(ctx, dcmqi_type, dcmqi_docker_image, freesurfer_type, freesurfer_docker_
     Docker is the default way to run FreeSurfer and dcmqi commands needed to create DICOM SEG/SR
 
 
-    A FreeSurfer License key is required to run the docker image. This can be downloaded from: https://surfer.nmr.mgh.harvard.edu/registration.html
+    A FreeSurfer License key is required to run the docker image.
+    This can be downloaded from: https://surfer.nmr.mgh.harvard.edu/registration.html
 
-    FreeSurfer commands are used to resample the aseg to native space and convert aseg.stats to a csv using asegstats2table. Future versions may remove this dependency
+    FreeSurfer commands are used to resample the aseg to native space
+    Future versions may remove this dependency
     """
     ctx.obj = ctx.params
 
     if ctx.obj['freesurfer_type'] == 'docker':
-        import docker
+        check_for_docker()
         if ctx.obj['fs_license_key'] is None:
             sys.exit(no_fs_license_message)
-        fs_license_var = base64_convert(ctx.obj['fs_license_key'])
-        ctx.obj['fs_license_var'] = fs_license_var
+        else:
+            fs_license_var = base64_convert(ctx.obj['fs_license_key'])
+            ctx.obj['fs_license_var'] = fs_license_var
 
     elif ctx.obj['dcmqi_type'] == 'docker':
-        import docker
+        check_for_docker()
 
 
 @click.command()
-@click.argument('aseg_image_file', type=click.Path(exists=True))
-@click.argument('aseg_dicom_seg_output', type=click.Path(), default='aseg.dcm')
-@click.option('--aseg_dicom_seg_metadata', '-m', type=click.Path(exists=True), default=aseg_metadata, help=aseg_dicom_seg_metadata_help)
-@click.option('--t1_dicom_file', '-d', type=click.Path(exists=True), help=t1_dicom_file_help)
+@click.argument('aseg_image_file',
+                type=click.Path(exists=True))
+@click.argument('aseg_dicom_seg_output',
+                type=click.Path(),
+                default='aseg.dcm')
+@click.option('--aseg_dicom_seg_metadata', '-m',
+              type=click.Path(exists=True),
+              default=aseg_metadata,
+              help=aseg_dicom_seg_metadata_help)
+@click.option('--t1_dicom_file', '-d',
+              type=click.Path(exists=True),
+              help=t1_dicom_file_help)
 @click.pass_context
-def create_dicom_seg(ctx, aseg_image_file, aseg_dicom_seg_output, aseg_dicom_seg_metadata, t1_dicom_file):
+def create_dicom_seg(ctx,
+                     aseg_image_file,
+                     aseg_dicom_seg_output,
+                     aseg_dicom_seg_metadata,
+                     t1_dicom_file):
     """
 
     FS
@@ -264,7 +359,7 @@ def create_dicom_seg(ctx, aseg_image_file, aseg_dicom_seg_output, aseg_dicom_seg
     """
 
     if ctx.obj['freesurfer_type'] == 'docker':
-        run_docker_command()
+        run_docker_commands()
         client = docker.from_env(ctx.obj['freesurfer_docker_image'],
                                  get_resample_aseg_cmd())
         client.images.pull(ctx.obj['freesurfer_docker_image'])
@@ -275,15 +370,36 @@ def create_dicom_seg(ctx, aseg_image_file, aseg_dicom_seg_output, aseg_dicom_seg
 
 
 @click.command()
-@click.argument('aseg_stats_file', type=click.Path(exists=True))
-@click.argument('aseg_dicom_seg_file', type=click.Path(), default='aseg.dcm')
-@click.argument('aseg_dicom_sr_metadata_output', type=click.Path(), default='fs-aseg-sr.json')
-@click.argument('aseg_dicom_sr_output', default='aseg-sr.dcm')
-@click.option('--aseg_dicom_seg_metadata', '-m', type=click.Path(exists=True), default=aseg_metadata, help=aseg_dicom_seg_metadata_help)
-@click.option('--dicom_sr_template', '-t', type=click.Path(exists=True), default=sr_template, help=dicom_sr_template_help)
-@click.option('--t1_dicom_file', '-d', type=click.Path(exists=True), help=t1_dicom_file_help)
+@click.argument('aseg_stats_file',
+                type=click.Path(exists=True))
+@click.argument('aseg_dicom_seg_file',
+                type=click.Path(),
+                default='aseg.dcm')
+@click.argument('aseg_dicom_sr_metadata_output',
+                type=click.Path(),
+                default='fs-aseg-sr.json')
+@click.argument('aseg_dicom_sr_output',
+                default='aseg-sr.dcm')
+@click.option('--aseg_dicom_seg_metadata', '-m',
+              type=click.Path(exists=True),
+              default=aseg_metadata,
+              help=aseg_dicom_seg_metadata_help)
+@click.option('--dicom_sr_template', '-t',
+              type=click.Path(exists=True),
+              default=sr_template,
+              help=dicom_sr_template_help)
+@click.option('--t1_dicom_file', '-d',
+              type=click.Path(exists=True),
+              help=t1_dicom_file_help)
 @click.pass_context
-def create_dicom_sr(aseg_stats_file,  aseg_dicom_seg_file, aseg_dicom_sr_metadata, aseg_dicom_sr_output, aseg_dicom_seg_metadata, dicom_sr_template, t1_dicom_file):
+def create_dicom_sr(ctx,
+                    aseg_stats_file,
+                    aseg_dicom_seg_file,
+                    aseg_dicom_sr_metadata,
+                    aseg_dicom_sr_output,
+                    aseg_dicom_seg_metadata,
+                    dicom_sr_template,
+                    t1_dicom_file):
     """
     # with tempfile.TemporaryDirectory() as tmpdirname:
     #     print('created temporary directory', tmpdirname)
