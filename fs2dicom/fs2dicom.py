@@ -77,23 +77,41 @@ def get_generate_dicom_seg_cmd(resampled_aseg, aseg_dicom_seg_metadata, t1_dicom
 
 
 def add_gm_wm_to_dataframe(aseg_dataframe, aseg_stats_file):
-    label_dict = {'Left-Cerebral-White-Matter': [2],
-                  'Left-Cerebral-Cortex': [3],
-                  'Right-Cerebral-White-Matter': [41],
-                  'Right-Cerebral-Cortex': [42]}
+    label_number_dict = {'Left-Cerebral-White-Matter': 2,
+                         'Left-Cerebral-Cortex': 3,
+                         'Right-Cerebral-White-Matter': 41,
+                         'Right-Cerebral-Cortex': 42}
 
+    label_name_dict = {'lhCerebralWhiteMatter': 'Left-Cerebral-White-Matter',
+                       'lhCortex': 'Left-Cerebral-Cortex',
+                       'rhCerebralWhiteMatter': 'Right-Cerebral-White-Matter',
+                       'rhCortex': 'Right-Cerebral-Cortex'}
+
+    def get_volume(line):
+        return float(line.split(',')[-2])
+
+
+    label_stats = []
     with open(aseg_stats_file) as f:
         for line in f:
-            if 'lhCerebralWhiteMatter' in line:
-                label_dict['Left-Cerebral-White-Matter'].append(float(line.split(',')[-2]))
-            if 'rhCerebralWhiteMatter' in line:
-                label_dict['Right-Cerebral-White-Matter'].append(float(line.split(',')[-2]))
-            if 'lhCortex' in line:
-                label_dict['Left-Cerebral-Cortex'].append(float(line.split(',')[-2]))
-            if 'rhCortex' in line:
-                label_dict['Right-Cerebral-Cortex'].append(float(line.split(',')[-2]))
-    # create list of dicts for each column, with np.nan for values not available
+            for label in label_name_dict:
+                if label in line:
+                    vol = get_volume(line)
+                    struct = label_name_dict[label]
+                    row = {'SegId': label_number_dict[struct],
+                           'NVoxels': np.nan,
+                           'Volume_mm3': vol,
+                           'StructName': struct,
+                           'normMean': np.nan,
+                           'normStdDev': np.nan,
+                           'normMin': np.nan,
+                           'normMax': np.nan,
+                           'normRange': np.nan}
+                    label_stats.append(row)
 
+    aseg_gm_wm_dataframe = aseg_dataframe.append(label_stats).reset_index(drop=True)
+
+    return aseg_gm_wm_dataframe
 
 
 # create_dicom_sr
@@ -223,6 +241,9 @@ def cli(ctx, dcmqi_type, dcmqi_docker_image, freesurfer_type, freesurfer_docker_
         import docker
         if ctx.obj['fs_license_key'] is None:
             sys.exit(no_fs_license_message)
+        fs_license_var = base64_convert(ctx.obj['fs_license_key'])
+        ctx.obj['fs_license_var'] = fs_license_var
+
     elif ctx.obj['dcmqi_type'] == 'docker':
         import docker
 
