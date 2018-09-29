@@ -129,3 +129,5 @@ docker run -it --rm \
 - fs data for ex? 
   - s3://cmet-scratch/dcmqi-test-dataset/
 
+- (0020, 000E) from T1 dicom: SourceSeriesForImageSegmentation 
+- (0008, 0018) from aseg.dcm: segmentationSOPInstanceUID
