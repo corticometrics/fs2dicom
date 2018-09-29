@@ -124,17 +124,30 @@ def create_seg(ctx,
                                                                 t1_dicom_file,
                                                                 aseg_dicom_seg_output)
 
-    fs_commands = [resample_aseg_cmd]
-    if ctx.obj['freesurfer_type'] == 'docker':
-        utils.run_docker_commands(fs_commands)
-    else:
-        utils.run_local_commands(fs_commands)
+        docker_user_string = utils.get_docker_user(aseg_image_file)
 
-    dcmqi_commands = [generate_dicom_seg_cmd]
-    if ctx.obj['dcmqi_type'] == 'docker':
-        utils.run_docker_commands(dcmqi_commands)
-    else:
-        utils.run_local_commands(dcmqi_commands)
+        fs_commands = [resample_aseg_cmd]
+        if ctx.obj['freesurfer_type'] == 'docker':
+            volumes_dict = {'seg_temp_dir': {'bind': seg_temp_dir,
+                                             'mode': 'rw'}
+                            ...
+            }
+            environment_dict = {'FS_KEY': utils.base64_convert(ctx.obj['fs_license_key'])
+
+            utils.run_docker_commands(fs_commands,
+                                      ctx.obj['freesurfer_docker_image'],
+                                      volumes_dict,
+                                      environment_dict,
+                                      docker_user_string,
+                                      seg_temp_dir)
+        else:
+            utils.run_local_commands(fs_commands)
+
+        dcmqi_commands = [generate_dicom_seg_cmd]
+        if ctx.obj['dcmqi_type'] == 'docker':
+            utils.run_docker_commands(dcmqi_commands)
+        else:
+            utils.run_local_commands(dcmqi_commands)
 
 
 @click.command()
