@@ -1,5 +1,3 @@
-import os
-
 from fs2dicom import utils
 
 

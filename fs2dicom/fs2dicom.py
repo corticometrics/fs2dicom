@@ -201,7 +201,7 @@ def create_seg(ctx,
                 default=os.path.join(os.getcwd(), 'aseg.dcm'))
 @click.argument('aseg_dicom_sr_metadata_output',
                 type=click.Path(),
-                default=os.path.join(os.getcwd(),'fs-aseg-sr.json'))
+                default=os.path.join(os.getcwd(), 'fs-aseg-sr.json'))
 @click.argument('aseg_dicom_sr_output',
                 default=os.path.join(os.getcwd(), 'aseg-sr.dcm'))
 @click.option('--aseg_dicom_seg_metadata', '-m',
@@ -255,9 +255,9 @@ def create_sr(ctx,
                                                          aseg_dicom_seg_file,
                                                          aseg_dicom_sr_output,
                                                          aseg_dicom_sr_metadata_output)
-    
+
     print('[fs2dicom] Running create-sr\n')
-    
+
     dcmqi_commands = [generate_dicom_sr_cmd]
     if ctx.obj['dcmqi_type'] == 'docker':
         """
