@@ -9,8 +9,9 @@
     "{{ aseg_dicom_seg_file }}"
   ],
 
-  "imageLibrary": [{% for dcm in t1_dicom_files %}
-    "{{ dcm }}",{% endfor %}
+  "imageLibrary": [{% for dcm in t1_dicom_files %}{% if loop.last %}
+    "{{ dcm }}"{% else %}
+    "{{ dcm }}",{% endif %}{% endfor %}
   ],
 
   "observerContext": {
@@ -24,33 +25,35 @@
   "activitySession": "1",
   "timePoint": "1",
 
-  "Measurements": [{% for measurement in aseg_dicom_metadata['segmentAttributes'][0] %}
-      {
-        "TrackingIdentifier": "{{ measurement.SegmentDescription }}",
-        "ReferencedSegment": {{ measurement.labelID }},
-        "SourceSeriesForImageSegmentation": "{{ t1_dicom_series_instance_uid }}",
-        "segmentationSOPInstanceUID": "{{ dicom_seg_instance_uid }}",
-        "Finding": { {% for k in measurement.SegmentedPropertyCategoryCodeSequence %}
-          "{{ k }}": "{{ measurement.SegmentedPropertyCategoryCodeSequence[k] }}",{% endfor %}
-        },
-        "FindingSite": { {% for k in measurement.SegmentedPropertyTypeCodeSequence %}
-          "{{ k }}": "{{ measurement.SegmentedPropertyTypeCodeSequence[k] }}",{% endfor %}
-        },
-        "measurementItems": [
-          {
-            "value": {{ aseg_stats_data[aseg_stats_data.SegId==measurement.labelID].Volume_mm3.values[0] }},
-            "quantity": {
-              "CodeValue": "G-D705",
-              "CodingSchemeDesignator": "SRT",
-              "CodeMeaning": "volume"
-            },
-            "units": {
-              "CodeValue": "mm3",
-              "CodingSchemeDesignator": "UCUM",
-              "CodeMeaning": "cubic millimeter"
-            }
+  "Measurements": [{% for measurement in aseg_dicom_seg_metadata['segmentAttributes'][0] %}
+    {
+      "TrackingIdentifier": "{{ measurement.SegmentDescription }}",
+      "ReferencedSegment": {{ measurement.labelID }},
+      "SourceSeriesForImageSegmentation": "{{ t1_dicom_series_instance_uid }}",
+      "segmentationSOPInstanceUID": "{{ dicom_seg_instance_uid }}",
+      "Finding": { {% for k in measurement.SegmentedPropertyCategoryCodeSequence %}{% if loop.last %}
+        "{{ k }}": "{{ measurement.SegmentedPropertyCategoryCodeSequence[k] }}"{% else %}
+        "{{ k }}": "{{ measurement.SegmentedPropertyCategoryCodeSequence[k] }}",{% endif %}{% endfor %}
+      },
+      "FindingSite": { {% for k in measurement.SegmentedPropertyTypeCodeSequence %}{% if loop.last %}
+        "{{ k }}": "{{ measurement.SegmentedPropertyTypeCodeSequence[k] }}"{% else %}
+        "{{ k }}": "{{ measurement.SegmentedPropertyTypeCodeSequence[k] }}",{% endif %}{% endfor %}
+      },
+      "measurementItems": [
+        {
+          "value": "{{ aseg_stats_data[aseg_stats_data.SegId==measurement.labelID].Volume_mm3.values[0] }}",
+          "quantity": {
+            "CodeValue": "G-D705",
+            "CodingSchemeDesignator": "SRT",
+            "CodeMeaning": "volume"
+          },
+          "units": {
+            "CodeValue": "mm3",
+            "CodingSchemeDesignator": "UCUM",
+            "CodeMeaning": "cubic millimeter"
           }
-        ]
-      },{% endfor %}
+        }
+      ]
+    }{% if loop.last %}{% else %},{% endif %}{% endfor %}
   ]
 }
