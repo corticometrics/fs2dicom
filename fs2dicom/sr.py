@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import pydicom
 
+from fs2dicom import utils
 
 SeriesInstanceUID = (0x0020, 0x000e)
 SOPInstanceUID = (0x0008, 0x0018)
@@ -84,7 +85,7 @@ def get_t1_dicom_files_dict(t1_dicom_file):
     t1_dicom_files = []
 
     t1_dicom_series_uid = get_dicom_tag_value(t1_dicom_file, SeriesInstanceUID)
-    t1_dicom_dir = os.path.dirname(t1_dicom_file)
+    t1_dicom_dir = utils.abs_dirname(t1_dicom_file)
 
     for dcm in os.listdir(t1_dicom_dir):
         dcm_file_path = os.path.join(t1_dicom_dir, dcm)
@@ -113,8 +114,8 @@ def generate_aseg_dicom_sr_metadata(dicom_sr_template,
     https://gist.github.com/sevennineteen/4400462
 
     """
-    template_path = os.path.dirname(dicom_sr_template)
-    sr_template_filename = os.path.dirname(dicom_sr_template)
+    template_path = utils.abs_dirname(dicom_sr_template)
+    sr_template_filename = utils.abs_dirname(dicom_sr_template)
 
     t1_files_dict = get_t1_dicom_files_dict(t1_dicom_file)
     for key in t1_files_dict:
@@ -149,8 +150,8 @@ def get_generate_dicom_sr_cmd(t1_dicom_file,
     --outputDICOM {aseg_dicom_sr_output} \
     --inputMetadata {aseg_dicom_sr_metadata}'''
 
-    t1_dicom_dir = os.path.dirname(t1_dicom_file)
-    aseg_dicom_seg_dir = os.path.dirname(aseg_dicom_seg_file)
+    t1_dicom_dir = utils.abs_dirname(t1_dicom_file)
+    aseg_dicom_seg_dir = utils.abs_dirname(aseg_dicom_seg_file)
 
     return command_template.format(t1_dicom_dir=t1_dicom_dir,
                                    aseg_dicom_seg_dir=aseg_dicom_seg_dir,

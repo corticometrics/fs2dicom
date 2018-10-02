@@ -4,9 +4,9 @@ import tempfile
 
 import click
 
-import seg
-import sr
-import utils
+from fs2dicom import seg
+from fs2dicom import sr
+from fs2dicom import utils
 
 
 CONTEXT_SETTINGS = {'help_option_names': ['-h', '--help']}
@@ -89,22 +89,22 @@ def cli(ctx,
 
 @click.command()
 @click.argument('t1_dicom_file',
-                type=click.Path(exists=True))
+                type=click.Path(exists=True, resolve_path=True))
 @click.argument('aseg_image_file',
-                type=click.Path(exists=True))
+                type=click.Path(exists=True, resolve_path=True))
 @click.argument('aseg_dicom_seg_output',
                 type=click.Path(),
-                default='./aseg.dcm')
+                default=os.path.join(os.getcwd(), 'aseg.dcm'))
 @click.option('--aseg_dicom_seg_metadata', '-m',
-              type=click.Path(exists=True),
+              type=click.Path(exists=True, resolve_path=True),
               default=aseg_metadata,
               help=aseg_dicom_seg_metadata_help)
 @click.pass_context
 def create_seg(ctx,
+               t1_dicom_file,
                aseg_image_file,
                aseg_dicom_seg_output,
-               aseg_dicom_seg_metadata,
-               t1_dicom_file):
+               aseg_dicom_seg_metadata):
     """
     Creates a DICOM Segementation Image object from the T1_DICOM_FILE (one of
     the T1w DICOM files processed with FreeSurfer) and ASEG_IMAGE_FILE,
@@ -112,9 +112,19 @@ def create_seg(ctx,
     """
     ctx = utils.check_docker_and_license(ctx)
 
+    # make sure any tilde in path names are resolved
+    aseg_image_file = os.path.expanduser(aseg_image_file)
+    aseg_dicom_seg_output = os.path.expanduser(aseg_dicom_seg_output)
+    aseg_dicom_seg_metadata = os.path.expanduser(aseg_dicom_seg_metadata)
+    t1_dicom_file = os.path.expanduser(t1_dicom_file)
+
+    docker_user_string = utils.get_docker_user(aseg_image_file)
+
     with tempfile.TemporaryDirectory() as seg_temp_dir:
         resampled_aseg = os.path.join(seg_temp_dir,
                                       'aseg_native_space.nii.gz')
+        t1_dicom_dir = utils.abs_dirname(t1_dicom_file)
+        docker_user_string = utils.get_docker_user(aseg_image_file)
 
         resample_aseg_cmd = seg.get_resample_aseg_cmd(aseg_image_file,
                                                       t1_dicom_file,
@@ -124,28 +134,58 @@ def create_seg(ctx,
                                                                 t1_dicom_file,
                                                                 aseg_dicom_seg_output)
 
-        docker_user_string = utils.get_docker_user(aseg_image_file)
-
         fs_commands = [resample_aseg_cmd]
         if ctx.obj['freesurfer_type'] == 'docker':
-            volumes_dict = {'seg_temp_dir': {'bind': seg_temp_dir,
-                                             'mode': 'rw'}
-                            ...
-            }
-            environment_dict = {'FS_KEY': utils.base64_convert(ctx.obj['fs_license_key'])
+            """
+            Inputs (ro):
+                t1_dicom_dir
+                aseg_image_file
+            Output directories (rw):
+                seg_temp_dir
+            """
+            volumes_dict = {t1_dicom_dir: {'bind': t1_dicom_dir,
+                                           'mode': 'ro'},
+                            aseg_image_file: {'bind': aseg_image_file,
+                                              'mode': 'ro'},
+                            seg_temp_dir: {'bind': seg_temp_dir,
+                                           'mode': 'rw'}}
 
-            utils.run_docker_commands(fs_commands,
-                                      ctx.obj['freesurfer_docker_image'],
-                                      volumes_dict,
-                                      environment_dict,
-                                      docker_user_string,
-                                      seg_temp_dir)
+            environment_dict = {'FS_KEY': utils.base64_convert(ctx.obj['fs_license_key'])}
+
+            utils.run_docker_commands(docker_image=ctx.obj['freesurfer_docker_image'],
+                                      commands=fs_commands,
+                                      volumes=volumes_dict,
+                                      user='root',  # corticometrics/fs6-base needs to be root
+                                      environment=environment_dict,
+                                      working_dir=seg_temp_dir)
         else:
             utils.run_local_commands(fs_commands)
 
         dcmqi_commands = [generate_dicom_seg_cmd]
         if ctx.obj['dcmqi_type'] == 'docker':
-            utils.run_docker_commands(dcmqi_commands)
+            """
+            Inputs (ro):
+                resampled_aseg
+                aseg_dicom_seg_metadata
+                t1_dicom_dir
+            Output directories (rw):
+                aseg_dicom_seg_output
+            """
+            output_dir = utils.abs_dirname(aseg_dicom_seg_output)
+            volumes_dict = {resampled_aseg: {'bind': resampled_aseg,
+                                             'mode': 'rw'},
+                            aseg_dicom_seg_metadata: {'bind': aseg_dicom_seg_metadata,
+                                                      'mode': 'ro'},
+                            t1_dicom_dir: {'bind': t1_dicom_dir,
+                                           'mode': 'ro'},
+                            output_dir: {'bind': output_dir,
+                                         'mode': 'rw'}}
+
+            utils.run_docker_commands(docker_image=ctx.obj['dcmqi_docker_image'],
+                                      commands=dcmqi_commands,
+                                      volumes=volumes_dict,
+                                      user=docker_user_string,
+                                      working_dir=output_dir)
         else:
             utils.run_local_commands(dcmqi_commands)
 
@@ -157,18 +197,18 @@ def create_seg(ctx,
                 type=click.Path(exists=True))
 @click.argument('aseg_dicom_seg_file',
                 type=click.Path(),
-                default='aseg.dcm')
+                default=os.path.join(os.getcwd(), 'aseg.dcm'))
 @click.argument('aseg_dicom_sr_metadata_output',
                 type=click.Path(),
                 default='fs-aseg-sr.json')
 @click.argument('aseg_dicom_sr_output',
-                default='aseg-sr.dcm')
+                default=os.path.join(os.getcwd(), 'aseg-sr.dcm'))
 @click.option('--aseg_dicom_seg_metadata', '-m',
-              type=click.Path(exists=True),
+              type=click.Path(exists=True, resolve_path=True),
               default=aseg_metadata,
               help=aseg_dicom_seg_metadata_help)
 @click.option('--dicom_sr_template', '-t',
-              type=click.Path(exists=True),
+              type=click.Path(exists=True, resolve_path=True),
               default=sr_template,
               help=dicom_sr_template_help)
 @click.pass_context
@@ -191,6 +231,14 @@ def create_sr(ctx,
      - generate dicom sr
     """
     ctx = utils.check_docker_and_license(ctx)
+
+    aseg_stats_file = os.path.expanduser(aseg_stats_file)
+    aseg_dicom_seg_file = os.path.expanduser(aseg_dicom_seg_file)
+    aseg_dicom_sr_metadata = os.path.expanduser(aseg_dicom_sr_metadata)
+    aseg_dicom_sr_output = os.path.expanduser(aseg_dicom_sr_output)
+    aseg_dicom_seg_metadata = os.path.expanduser(aseg_dicom_seg_metadata)
+    dicom_sr_template = os.path.expanduser(dicom_sr_template)
+    t1_dicom_file = os.path.expanduser(t1_dicom_file)
 
     fs_commands = []
     if ctx.obj['freesurfer_type'] == 'docker':

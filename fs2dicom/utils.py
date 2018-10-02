@@ -48,11 +48,11 @@ def get_docker_user(file):
     return ':'.join([uid, gid])
 
 
-def run_docker_commands(commands,
-                        docker_image,
+def run_docker_commands(docker_image,
+                        commands,
                         volumes,
-                        environment,
                         user,
+                        environment=None,
                         working_dir=os.getcwd(),
                         pull=False):
     client = docker.from_env()
@@ -60,12 +60,18 @@ def run_docker_commands(commands,
     if pull:
         client.images.pull(docker_image)
     for command in commands:
-        client.containers.run(docker_image,
-                              command=shlex.split(command),
-                              volumes=volumes,
-                              environment=environment,
-                              user=user,
-                              working_dir=working_dir)
+        print('#@# Running command:')
+        print(command)
+        container = client.containers.run(docker_image,
+                                          command=shlex.split(command),
+                                          volumes=volumes,
+                                          environment=environment,
+                                          user=user,
+                                          working_dir=working_dir)
+        log = container.decode('utf-8')
+        for i in log.split('\n'):
+            print(i)
+        print('--------')
     client.close()
 
 
@@ -83,3 +89,7 @@ def base64_convert(file):
         encoded_file = base64.b64encode(f.read()).decode('ascii')
 
     return encoded_file
+
+
+def abs_dirname(file):
+    return os.path.dirname(os.path.abspath(os.path.expanduser(file)))
