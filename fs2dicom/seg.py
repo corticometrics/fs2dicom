@@ -7,7 +7,7 @@ def get_resample_aseg_cmd(aseg_image_file,
                           t1_dicom_file,
                           resampled_aseg):
     command_template = '''\
-    mri_vol2vol \
+mri_vol2vol \
 --mov {aseg_image_file} \
 --targ {t1_dicom_file} \
 --regheader \
@@ -24,7 +24,7 @@ def get_generate_dicom_seg_cmd(resampled_aseg,
                                t1_dicom_file,
                                aseg_dicom_seg_output):
     command_template = '''\
-    itkimage2segimage \
+itkimage2segimage \
 --inputDICOMDirectory {t1_dicom_dir} \
 --inputMetadata {aseg_dicom_seg_metadata} \
 --inputImageList {resampled_aseg} \

@@ -121,6 +121,7 @@ def create_seg(ctx,
     docker_user_string = utils.get_docker_user(aseg_image_file)
 
     with tempfile.TemporaryDirectory() as seg_temp_dir:
+        print('[fs2dicom] Running create-seg with {temp_dir} as tempdir\n'.format(temp_dir=seg_temp_dir))
         resampled_aseg = os.path.join(seg_temp_dir,
                                       'aseg_native_space.nii.gz')
         t1_dicom_dir = utils.abs_dirname(t1_dicom_file)

@@ -60,8 +60,7 @@ def run_docker_commands(docker_image,
     if pull:
         client.images.pull(docker_image)
     for command in commands:
-        print('#@# Running command:')
-        print(command)
+        print('[RunningCommand] {command}\n'.format(command=command))
         container = client.containers.run(docker_image,
                                           command=shlex.split(command),
                                           volumes=volumes,
