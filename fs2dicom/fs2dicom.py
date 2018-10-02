@@ -174,7 +174,7 @@ def create_seg(ctx,
             """
             output_dir = utils.abs_dirname(aseg_dicom_seg_output)
             volumes_dict = {resampled_aseg: {'bind': resampled_aseg,
-                                             'mode': 'rw'},
+                                             'mode': 'ro'},
                             aseg_dicom_seg_metadata: {'bind': aseg_dicom_seg_metadata,
                                                       'mode': 'ro'},
                             t1_dicom_dir: {'bind': t1_dicom_dir,
@@ -193,15 +193,15 @@ def create_seg(ctx,
 
 @click.command()
 @click.argument('t1_dicom_file',
-                type=click.Path(exists=True))
+                type=click.Path(exists=True, resolve_path=True))
 @click.argument('aseg_stats_file',
-                type=click.Path(exists=True))
+                type=click.Path(exists=True, resolve_path=True))
 @click.argument('aseg_dicom_seg_file',
                 type=click.Path(),
                 default=os.path.join(os.getcwd(), 'aseg.dcm'))
 @click.argument('aseg_dicom_sr_metadata_output',
                 type=click.Path(),
-                default='fs-aseg-sr.json')
+                default=os.path.join(os.getcwd(),'fs-aseg-sr.json'))
 @click.argument('aseg_dicom_sr_output',
                 default=os.path.join(os.getcwd(), 'aseg-sr.dcm'))
 @click.option('--aseg_dicom_seg_metadata', '-m',
@@ -214,42 +214,79 @@ def create_seg(ctx,
               help=dicom_sr_template_help)
 @click.pass_context
 def create_sr(ctx,
+              t1_dicom_file,
               aseg_stats_file,
               aseg_dicom_seg_file,
-              aseg_dicom_sr_metadata,
+              aseg_dicom_sr_metadata_output,
               aseg_dicom_sr_output,
               aseg_dicom_seg_metadata,
               dicom_sr_template,
-              t1_dicom_file):
+              ):
     """
     # with tempfile.TemporaryDirectory() as tmpdirname:
     #     print('created temporary directory', tmpdirname)
-    FS
-      - convert aseg stats
     python
+      - parse aseg.stats
       - generate_aseg stats json
     dcmqi:
      - generate dicom sr
     """
     ctx = utils.check_docker_and_license(ctx)
 
+    # make sure any tilde in path names are resolved
     aseg_stats_file = os.path.expanduser(aseg_stats_file)
     aseg_dicom_seg_file = os.path.expanduser(aseg_dicom_seg_file)
-    aseg_dicom_sr_metadata = os.path.expanduser(aseg_dicom_sr_metadata)
+    aseg_dicom_sr_metadata = os.path.expanduser(aseg_dicom_sr_metadata_output)
     aseg_dicom_sr_output = os.path.expanduser(aseg_dicom_sr_output)
     aseg_dicom_seg_metadata = os.path.expanduser(aseg_dicom_seg_metadata)
     dicom_sr_template = os.path.expanduser(dicom_sr_template)
     t1_dicom_file = os.path.expanduser(t1_dicom_file)
 
-    fs_commands = []
-    if ctx.obj['freesurfer_type'] == 'docker':
-        utils.run_docker_commands(fs_commands)
-    else:
-        utils.run_local_commands(fs_commands)
+    docker_user_string = utils.get_docker_user(aseg_stats_file)
 
-    dcmqi_commands = []
+    sr.generate_aseg_dicom_sr_metadata(dicom_sr_template,
+                                       aseg_dicom_seg_metadata,
+                                       aseg_dicom_seg_file,
+                                       t1_dicom_file,
+                                       aseg_dicom_sr_metadata_output,
+                                       aseg_stats_file)
+
+    generate_dicom_sr_cmd = sr.get_generate_dicom_sr_cmd(t1_dicom_file,
+                                                         aseg_dicom_seg_file,
+                                                         aseg_dicom_sr_output,
+                                                         aseg_dicom_sr_metadata_output)
+    
+    print('[fs2dicom] Running create-sr\n')
+    
+    dcmqi_commands = [generate_dicom_sr_cmd]
     if ctx.obj['dcmqi_type'] == 'docker':
-        utils.run_docker_commands(dcmqi_commands)
+        """
+        Inputs (ro):
+            t1_dicom_dir
+            aseg_dicom_dir
+            aseg_dicom_sr_metadata
+        Output directories (rw):
+            aseg_dicom_sr_output
+        """
+        t1_dicom_dir = utils.abs_dirname(t1_dicom_file)
+        aseg_dicom_dir = utils.abs_dirname(aseg_dicom_seg_file)
+        output_dir = utils.abs_dirname(aseg_dicom_sr_output)
+
+        volumes_dict = {t1_dicom_dir: {'bind': t1_dicom_dir,
+                                       'mode': 'ro'},
+                        aseg_dicom_dir: {'bind': aseg_dicom_dir,
+                                         'mode': 'ro'},
+                        aseg_dicom_sr_metadata: {'bind': aseg_dicom_sr_metadata,
+                                                 'mode': 'ro'},
+                        output_dir: {'bind': output_dir,
+                                     'mode': 'rw'}}
+
+        utils.run_docker_commands(docker_image=ctx.obj['dcmqi_docker_image'],
+                                  commands=dcmqi_commands,
+                                  volumes=volumes_dict,
+                                  user=docker_user_string,
+                                  working_dir=output_dir)
+
     else:
         utils.run_local_commands(dcmqi_commands)
 

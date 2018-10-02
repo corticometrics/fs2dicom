@@ -129,5 +129,17 @@ docker run -it --rm \
 - fs data for ex? 
   - s3://cmet-scratch/dcmqi-test-dataset/
 
-- (0020, 000E) from T1 dicom: SourceSeriesForImageSegmentation 
-- (0008, 0018) from aseg.dcm: segmentationSOPInstanceUID
+- (0020, 000E) from T1 dicom: SourceSeriesForImageSegmentation? 
+- (0008, 0018) from aseg.dcm: segmentationSOPInstanceUID?
+
+- Get rid of FreeSurfer? Use nibabel to resample (requires `nibabel` and `scipy` packages, needs the `rawavg.mgz`/`001.mgz` as input)
+```
+import nibabel as nb
+from nibabel import processing
+
+orig = nb.load('fs-subs/m28/mri/orig/001.mgz')
+aseg = nb.load('fs-subs/m28/mri/aseg.mgz')
+resampled_aseg = processing.resample_from_to(aseg, orig, mode='nearest')
+
+nb.save(resampled_aseg, 'aseg_native_space.nii.gz')
+```

@@ -1,3 +1,4 @@
+import json
 import os
 
 import jinja2
@@ -103,7 +104,7 @@ def get_t1_dicom_files_dict(t1_dicom_file):
 
 
 def generate_aseg_dicom_sr_metadata(dicom_sr_template,
-                                    aseg_dicom_seg_metadata,
+                                    aseg_dicom_seg_metadata_file,
                                     aseg_dicom_seg_file,
                                     t1_dicom_file,
                                     aseg_dicom_sr_metadata,
@@ -115,20 +116,24 @@ def generate_aseg_dicom_sr_metadata(dicom_sr_template,
 
     """
     template_path = utils.abs_dirname(dicom_sr_template)
-    sr_template_filename = utils.abs_dirname(dicom_sr_template)
+    sr_template_filename = os.path.basename(dicom_sr_template)
+
+    aseg_dicom_filename = os.path.basename(aseg_dicom_seg_file)
 
     t1_files_dict = get_t1_dicom_files_dict(t1_dicom_file)
     for key in t1_files_dict:
         t1_dicom_files = t1_files_dict[key]
         t1_dicom_series_instance_uid = key
 
-    aseg_dicom_filename = os.path.basename(aseg_dicom_seg_file)
     dicom_seg_instance_uid = get_dicom_tag_value(aseg_dicom_seg_file, SeriesInstanceUID)
+
+    with open(aseg_dicom_seg_metadata_file) as f:
+        aseg_dicom_seg_metadata = json.load(f)
+
     aseg_stats_data = get_aseg_stats_dataframe(aseg_stats_file)
 
     env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_path))
     template = env.get_template(sr_template_filename)
-
     template_vars = {'aseg_dicom_seg_file': aseg_dicom_filename,
                      't1_dicom_files': t1_dicom_files,
                      't1_dicom_series_instance_uid': t1_dicom_series_instance_uid,
@@ -144,11 +149,11 @@ def get_generate_dicom_sr_cmd(t1_dicom_file,
                               aseg_dicom_sr_output,
                               aseg_dicom_sr_metadata):
     command_template = '''\
-    tid1500writer \
-    --inputImageLibraryDirectory {t1_dicom_dir} \
-    --inputCompositeContextDirectory {aseg_dicom_seg_dir} \
-    --outputDICOM {aseg_dicom_sr_output} \
-    --inputMetadata {aseg_dicom_sr_metadata}'''
+tid1500writer \
+--inputImageLibraryDirectory {t1_dicom_dir} \
+--inputCompositeContextDirectory {aseg_dicom_seg_dir} \
+--outputDICOM {aseg_dicom_sr_output} \
+--inputMetadata {aseg_dicom_sr_metadata}'''
 
     t1_dicom_dir = utils.abs_dirname(t1_dicom_file)
     aseg_dicom_seg_dir = utils.abs_dirname(aseg_dicom_seg_file)
