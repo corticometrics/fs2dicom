@@ -170,7 +170,7 @@ def create_seg(ctx,
                 aseg_dicom_seg_metadata
                 t1_dicom_dir
             Output directories (rw):
-                aseg_dicom_seg_output
+                aseg_dicom_seg_output directrory (output dir)
             """
             output_dir = utils.abs_dirname(aseg_dicom_seg_output)
             volumes_dict = {resampled_aseg: {'bind': resampled_aseg,
@@ -220,8 +220,7 @@ def create_sr(ctx,
               aseg_dicom_sr_metadata_output,
               aseg_dicom_sr_output,
               aseg_dicom_seg_metadata,
-              dicom_sr_template,
-              ):
+              dicom_sr_template):
     """
     Creates a DICOM Structured Report object ASEG_DICOM_SR_OUTPUT (default:
     ./aseg-sr.dcm) using the values from the ASEG_STATS_FILE created by
@@ -266,7 +265,7 @@ def create_sr(ctx,
             aseg_dicom_dir
             aseg_dicom_sr_metadata
         Output directories (rw):
-            aseg_dicom_sr_output
+            aseg_dicom_sr_output directory (output dir)
         """
         t1_dicom_dir = utils.abs_dirname(t1_dicom_file)
         aseg_dicom_dir = utils.abs_dirname(aseg_dicom_seg_file)
