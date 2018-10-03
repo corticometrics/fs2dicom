@@ -223,13 +223,13 @@ def create_sr(ctx,
               dicom_sr_template,
               ):
     """
-    # with tempfile.TemporaryDirectory() as tmpdirname:
-    #     print('created temporary directory', tmpdirname)
-    python
-      - parse aseg.stats
-      - generate_aseg stats json
-    dcmqi:
-     - generate dicom sr
+    Creates a DICOM Structured Report object ASEG_DICOM_SR_OUTPUT (default:
+    ./aseg-sr.dcm) using the values from the ASEG_STATS_FILE created by
+    FreeSurfer. The T1_DICOM_FILE (one of the T1w DICOM files processed with
+    FreeSurfer) and ASEG_DICOM_SEG_FILE (default: ./aseg.dcm) are needed to
+    provide context for this DICOM SR output. ASEG_DICOM_SR_METADATA_OUTPUT
+    (default: ./fs-aseg-sr.json) is also created, containing the values used to
+    create the DICOM SR.
     """
     ctx = utils.check_docker_and_license(ctx)
 
