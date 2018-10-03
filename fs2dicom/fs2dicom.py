@@ -35,14 +35,21 @@ Currently only supports corticometrics/fs6-base \
 fs_license_key_help = '''\
 Path to FreeSurfer License key file. \
 (default: path set by environment variable FS_LICENSE_KEY)'''
-aseg_dicom_seg_metadata_help = '''\
+seg_metadata_help = '''\
 Path to the DICOM SEG metadata schema describing the aseg \
 (default: provided within package)'''
 t1_dicom_file_help = '''\
 Path to one of the T1-weighted DICOM files processed with FreeSurfer to create the aseg.'''
-dicom_sr_template_help = '''\
+sr_template_help = '''\
 Path to DICOM SR template that is filled in with aseg.stats values \
 (default: provided within package)'''
+aseg_dicom_seg_file_help = '''\
+DICOM SEG of the aseg, for example created by `fs2dicom create-seg` \
+(default: ./aseg.dcm)'''
+sr_metadata_output_help = '''\
+JSON file output containing the values used to create the DICOM SR \
+(default: ./fs-aseg-sr.json)
+'''
 
 
 @click.group(context_settings=CONTEXT_SETTINGS)
@@ -95,10 +102,10 @@ def cli(ctx,
 @click.argument('aseg_dicom_seg_output',
                 type=click.Path(),
                 default=os.path.join(os.getcwd(), 'aseg.dcm'))
-@click.option('--aseg_dicom_seg_metadata', '-m',
+@click.option('--seg_metadata',
               type=click.Path(exists=True, resolve_path=True),
               default=aseg_metadata,
-              help=aseg_dicom_seg_metadata_help)
+              help=seg_metadata_help)
 @click.pass_context
 def create_seg(ctx,
                t1_dicom_file,
@@ -196,22 +203,24 @@ def create_seg(ctx,
                 type=click.Path(exists=True, resolve_path=True))
 @click.argument('aseg_stats_file',
                 type=click.Path(exists=True, resolve_path=True))
-@click.argument('aseg_dicom_seg_file',
-                type=click.Path(),
-                default=os.path.join(os.getcwd(), 'aseg.dcm'))
-@click.argument('aseg_dicom_sr_metadata_output',
-                type=click.Path(),
-                default=os.path.join(os.getcwd(), 'fs-aseg-sr.json'))
 @click.argument('aseg_dicom_sr_output',
                 default=os.path.join(os.getcwd(), 'aseg-sr.dcm'))
-@click.option('--aseg_dicom_seg_metadata', '-m',
+@click.option('--aseg_dicom_seg_file',
+              type=click.Path(exists=True, resolve_path=True),
+              default=os.path.join(os.getcwd(), 'aseg.dcm'),
+              help=aseg_dicom_seg_file_help)
+@click.option('--sr_metadata_output',
+              type=click.Path(resolve_path=True),
+              default=os.path.join(os.getcwd(), 'fs-aseg-sr.json'),
+              help=sr_metadata_output_help)
+@click.option('--seg_metadata',
               type=click.Path(exists=True, resolve_path=True),
               default=aseg_metadata,
-              help=aseg_dicom_seg_metadata_help)
-@click.option('--dicom_sr_template', '-t',
+              help=seg_metadata_help)
+@click.option('--sr_template',
               type=click.Path(exists=True, resolve_path=True),
               default=sr_template,
-              help=dicom_sr_template_help)
+              help=sr_template_help)
 @click.pass_context
 def create_sr(ctx,
               t1_dicom_file,
@@ -225,10 +234,10 @@ def create_sr(ctx,
     Creates a DICOM Structured Report object ASEG_DICOM_SR_OUTPUT (default:
     ./aseg-sr.dcm) using the values from the ASEG_STATS_FILE created by
     FreeSurfer. The T1_DICOM_FILE (one of the T1w DICOM files processed with
-    FreeSurfer) and ASEG_DICOM_SEG_FILE (default: ./aseg.dcm) are needed to
-    provide context for this DICOM SR output. ASEG_DICOM_SR_METADATA_OUTPUT
-    (default: ./fs-aseg-sr.json) is also created, containing the values used to
-    create the DICOM SR.
+    FreeSurfer) and aseg_dicom_seg_file (default: ./aseg.dcm, specified with
+    --aseg_dicom_seg_file) are needed to provide context for this DICOM SR.
+    sr_metadata_output is also created (default: ./fs-aseg-sr.json, specified
+    with --sr_metadata_output), containing the values used to create the DICOM SR.
     """
     ctx = utils.check_docker_and_license(ctx)
 
