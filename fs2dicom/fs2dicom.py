@@ -35,14 +35,21 @@ Currently only supports corticometrics/fs6-base \
 fs_license_key_help = '''\
 Path to FreeSurfer License key file. \
 (default: path set by environment variable FS_LICENSE_KEY)'''
-aseg_dicom_seg_metadata_help = '''\
+seg_metadata_help = '''\
 Path to the DICOM SEG metadata schema describing the aseg \
 (default: provided within package)'''
 t1_dicom_file_help = '''\
 Path to one of the T1-weighted DICOM files processed with FreeSurfer to create the aseg.'''
-dicom_sr_template_help = '''\
+sr_template_help = '''\
 Path to DICOM SR template that is filled in with aseg.stats values \
 (default: provided within package)'''
+aseg_dicom_seg_file_help = '''\
+DICOM SEG of the aseg, for example created by `fs2dicom create-seg` \
+(default: ./aseg.dcm)'''
+sr_metadata_output_help = '''\
+JSON file output containing the values used to create the DICOM SR \
+(default: ./fs-aseg-sr.json)
+'''
 
 
 @click.group(context_settings=CONTEXT_SETTINGS)
@@ -95,16 +102,16 @@ def cli(ctx,
 @click.argument('aseg_dicom_seg_output',
                 type=click.Path(),
                 default=os.path.join(os.getcwd(), 'aseg.dcm'))
-@click.option('--aseg_dicom_seg_metadata', '-m',
+@click.option('--seg_metadata',
               type=click.Path(exists=True, resolve_path=True),
               default=aseg_metadata,
-              help=aseg_dicom_seg_metadata_help)
+              help=seg_metadata_help)
 @click.pass_context
 def create_seg(ctx,
                t1_dicom_file,
                aseg_image_file,
                aseg_dicom_seg_output,
-               aseg_dicom_seg_metadata):
+               seg_metadata):
     """
     Creates a DICOM Segementation Image object from the T1_DICOM_FILE (one of
     the T1w DICOM files processed with FreeSurfer) and ASEG_IMAGE_FILE,
@@ -113,10 +120,10 @@ def create_seg(ctx,
     ctx = utils.check_docker_and_license(ctx)
 
     # make sure any tilde in path names are resolved
+    t1_dicom_file = os.path.expanduser(t1_dicom_file)
     aseg_image_file = os.path.expanduser(aseg_image_file)
     aseg_dicom_seg_output = os.path.expanduser(aseg_dicom_seg_output)
-    aseg_dicom_seg_metadata = os.path.expanduser(aseg_dicom_seg_metadata)
-    t1_dicom_file = os.path.expanduser(t1_dicom_file)
+    seg_metadata = os.path.expanduser(seg_metadata)
 
     docker_user_string = utils.get_docker_user(aseg_image_file)
 
@@ -131,7 +138,7 @@ def create_seg(ctx,
                                                       t1_dicom_file,
                                                       resampled_aseg)
         generate_dicom_seg_cmd = seg.get_generate_dicom_seg_cmd(resampled_aseg,
-                                                                aseg_dicom_seg_metadata,
+                                                                seg_metadata,
                                                                 t1_dicom_file,
                                                                 aseg_dicom_seg_output)
 
@@ -167,7 +174,7 @@ def create_seg(ctx,
             """
             Inputs (ro):
                 resampled_aseg
-                aseg_dicom_seg_metadata
+                seg_metadata
                 t1_dicom_dir
             Output directories (rw):
                 aseg_dicom_seg_output directrory (output dir)
@@ -175,8 +182,8 @@ def create_seg(ctx,
             output_dir = utils.abs_dirname(aseg_dicom_seg_output)
             volumes_dict = {resampled_aseg: {'bind': resampled_aseg,
                                              'mode': 'ro'},
-                            aseg_dicom_seg_metadata: {'bind': aseg_dicom_seg_metadata,
-                                                      'mode': 'ro'},
+                            seg_metadata: {'bind': seg_metadata,
+                                           'mode': 'ro'},
                             t1_dicom_dir: {'bind': t1_dicom_dir,
                                            'mode': 'ro'},
                             output_dir: {'bind': output_dir,
@@ -196,64 +203,66 @@ def create_seg(ctx,
                 type=click.Path(exists=True, resolve_path=True))
 @click.argument('aseg_stats_file',
                 type=click.Path(exists=True, resolve_path=True))
-@click.argument('aseg_dicom_seg_file',
-                type=click.Path(),
-                default=os.path.join(os.getcwd(), 'aseg.dcm'))
-@click.argument('aseg_dicom_sr_metadata_output',
-                type=click.Path(),
-                default=os.path.join(os.getcwd(), 'fs-aseg-sr.json'))
 @click.argument('aseg_dicom_sr_output',
                 default=os.path.join(os.getcwd(), 'aseg-sr.dcm'))
-@click.option('--aseg_dicom_seg_metadata', '-m',
+@click.option('--aseg_dicom_seg_file',
+              type=click.Path(exists=True, resolve_path=True),
+              default=os.path.join(os.getcwd(), 'aseg.dcm'),
+              help=aseg_dicom_seg_file_help)
+@click.option('--sr_metadata_output',
+              type=click.Path(resolve_path=True),
+              default=os.path.join(os.getcwd(), 'fs-aseg-sr.json'),
+              help=sr_metadata_output_help)
+@click.option('--seg_metadata',
               type=click.Path(exists=True, resolve_path=True),
               default=aseg_metadata,
-              help=aseg_dicom_seg_metadata_help)
-@click.option('--dicom_sr_template', '-t',
+              help=seg_metadata_help)
+@click.option('--sr_template',
               type=click.Path(exists=True, resolve_path=True),
               default=sr_template,
-              help=dicom_sr_template_help)
+              help=sr_template_help)
 @click.pass_context
 def create_sr(ctx,
               t1_dicom_file,
               aseg_stats_file,
-              aseg_dicom_seg_file,
-              aseg_dicom_sr_metadata_output,
               aseg_dicom_sr_output,
-              aseg_dicom_seg_metadata,
-              dicom_sr_template):
+              aseg_dicom_seg_file,
+              sr_metadata_output,
+              seg_metadata,
+              sr_template):
     """
     Creates a DICOM Structured Report object ASEG_DICOM_SR_OUTPUT (default:
     ./aseg-sr.dcm) using the values from the ASEG_STATS_FILE created by
     FreeSurfer. The T1_DICOM_FILE (one of the T1w DICOM files processed with
-    FreeSurfer) and ASEG_DICOM_SEG_FILE (default: ./aseg.dcm) are needed to
-    provide context for this DICOM SR output. ASEG_DICOM_SR_METADATA_OUTPUT
-    (default: ./fs-aseg-sr.json) is also created, containing the values used to
-    create the DICOM SR.
+    FreeSurfer) and aseg_dicom_seg_file (default: ./aseg.dcm, specified with
+    --aseg_dicom_seg_file) are needed to provide context for this DICOM SR.
+    sr_metadata_output is also created (default: ./fs-aseg-sr.json, specified
+    with --sr_metadata_output), containing the values used to create the DICOM SR.
     """
     ctx = utils.check_docker_and_license(ctx)
 
     # make sure any tilde in path names are resolved
-    aseg_stats_file = os.path.expanduser(aseg_stats_file)
-    aseg_dicom_seg_file = os.path.expanduser(aseg_dicom_seg_file)
-    aseg_dicom_sr_metadata = os.path.expanduser(aseg_dicom_sr_metadata_output)
-    aseg_dicom_sr_output = os.path.expanduser(aseg_dicom_sr_output)
-    aseg_dicom_seg_metadata = os.path.expanduser(aseg_dicom_seg_metadata)
-    dicom_sr_template = os.path.expanduser(dicom_sr_template)
     t1_dicom_file = os.path.expanduser(t1_dicom_file)
+    aseg_stats_file = os.path.expanduser(aseg_stats_file)
+    aseg_dicom_sr_output = os.path.expanduser(aseg_dicom_sr_output)
+    aseg_dicom_seg_file = os.path.expanduser(aseg_dicom_seg_file)
+    sr_metadata_output = os.path.expanduser(sr_metadata_output)
+    seg_metadata = os.path.expanduser(seg_metadata)
+    sr_template = os.path.expanduser(sr_template)
 
     docker_user_string = utils.get_docker_user(aseg_stats_file)
 
-    sr.generate_aseg_dicom_sr_metadata(dicom_sr_template,
-                                       aseg_dicom_seg_metadata,
+    sr.generate_aseg_dicom_sr_metadata(sr_template,
+                                       seg_metadata,
                                        aseg_dicom_seg_file,
                                        t1_dicom_file,
-                                       aseg_dicom_sr_metadata_output,
+                                       sr_metadata_output,
                                        aseg_stats_file)
 
     generate_dicom_sr_cmd = sr.get_generate_dicom_sr_cmd(t1_dicom_file,
                                                          aseg_dicom_seg_file,
                                                          aseg_dicom_sr_output,
-                                                         aseg_dicom_sr_metadata_output)
+                                                         sr_metadata_output)
 
     print('[fs2dicom] Running create-sr\n')
 
@@ -275,8 +284,8 @@ def create_sr(ctx,
                                        'mode': 'ro'},
                         aseg_dicom_dir: {'bind': aseg_dicom_dir,
                                          'mode': 'ro'},
-                        aseg_dicom_sr_metadata: {'bind': aseg_dicom_sr_metadata,
-                                                 'mode': 'ro'},
+                        sr_metadata_output: {'bind': sr_metadata_output,
+                                             'mode': 'ro'},
                         output_dir: {'bind': output_dir,
                                      'mode': 'rw'}}
 
