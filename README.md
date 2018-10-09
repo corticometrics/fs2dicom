@@ -131,7 +131,7 @@ See the [DCMQI gitbook](https://qiicr.gitbooks.io/dicom4qi/results/seg/freesurfe
 
 ### `aseg.stats` to `DICOM-SR`
 1. Read the `aseg.stats` file into a `pandas` dataframe
-2. Fill in  the `jinja2` template (located within this repo here: `fs2dicom/fs2dicom/templates/fs-aseg-sr-template.json`) with:
+2. Fill in  the [`fs-aseg-sr-template.json`](fs2dicom/templates/fs-aseg-sr-template.json) `jinja2` template with:
   - the T1 DICOM file list,
   - the name of the aseg `DICOM SEG` file, and
   - the volume values from the `aseg.stats` dataframe
