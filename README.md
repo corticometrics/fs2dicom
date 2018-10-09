@@ -113,7 +113,7 @@ mri_vol2vol \
   --nearest \
   --o aseg_native.nii.gz
 ```
-2. Use [`itkimage2segimage`](https://qiicr.gitbooks.io/dcmqi-guide/user_guide/itkimage2segimage.html) from [dmcqi](https://github.com/QIICR/dcmqi) to convert `aseg.nii.gz` to DICOM-SEG using [`fs-aseg.json`](fs-aseg.json) in this repo.
+2. Use [`itkimage2segimage`](https://qiicr.gitbooks.io/dcmqi-guide/user_guide/itkimage2segimage.html) from [dmcqi](https://github.com/QIICR/dcmqi) to convert `aseg.nii.gz` to DICOM-SEG using [`fs-aseg.json`](fs2dicom/templates/fs-aseg.json) in this repo.
 ```
 itkimage2segimage \
   --inputDICOMDirectory /path/to/t1/dicom/directory \
@@ -123,7 +123,7 @@ itkimage2segimage \
   --skip
 ```
 
-[`fs-aseg.json`](fs-aseg.json) maps [FreeSurfer aseg labels](https://surfer.nmr.mgh.harvard.edu/fswiki/FsTutorial/AnatomicalROI/FreeSurferColorLUT) to [SNOMED](https://www.snomed.org/) codes and preserves the FreeSurfer's recommended color scheme.
+[`fs-aseg.json`](fs2dicom/templates/fs-aseg.json) maps [FreeSurfer aseg labels](https://surfer.nmr.mgh.harvard.edu/fswiki/FsTutorial/AnatomicalROI/FreeSurferColorLUT) to [SNOMED](https://www.snomed.org/) codes and preserves the FreeSurfer's recommended color scheme.
 
 `fs-aseg.json` has been kindly provided by [Emily Lindemer](https://www.linkedin.com/in/emily-lindemer-87206667/)
 
