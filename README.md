@@ -1,7 +1,7 @@
 # fs2dicom
 `fs2dicom` is a tool to convert [FreeSurfer](https://surfer.nmr.mgh.harvard.edu/) outputs to DICOM.
 
-Two subcommands are implemented: `create-seg` and `create-sr`, to produce [DICOM Segmentation Image objects](https://qiicr.gitbooks.io/dicom4qi/content/results/seg.html), and DICOM Structured Report objects, respectively. `aseg.stats` to `DICOM-SR`.
+Two subcommands are implemented: `create-seg` and `create-sr`, to produce [DICOM Segmentation Image objects](https://qiicr.gitbooks.io/dicom4qi/content/results/seg.html), and DICOM Structured Report objects, respectively. `aseg.stats` to `DICOM-SR` using [dcmqi](https://github.com/QIICR/dcmqi/).
 
 Currently, only [`aseg.mgz`](http://surfer.nmr.mgh.harvard.edu/fswiki/SubcorticalSegmentation/) and `aseg.stats`  are supported and documented. Future versions may support other FreeSurfer segmentations and parcellations (such as thickness and volumes of different cortical regions)
 
@@ -101,7 +101,7 @@ Options:
 
 ## Descriptions of steps implemented by `fs2dicom`
 Preprocessing (not done by fs2dicom):
- - Run Freesurfer's [`recon-all`](https://surfer.nmr.mgh.harvard.edu/fswiki/ReconAllDevTable) on your input DICOM(s) to generate `aseg.mgz`.
+ - Run Freesurfer's [`recon-all`](https://surfer.nmr.mgh.harvard.edu/fswiki/ReconAllDevTable) on your input DICOM(s) to generate `aseg.mgz` and `aseg.stats`.
 
 ### `aseg.mgz` to `DICOM-SEG`
 1. Call [`mri_vol2vol`](https://surfer.nmr.mgh.harvard.edu/fswiki/mri_vol2vol) from FreeSurfer to resample `aseg.mgz` from FreeSurfer space to the native space of the input T1 DICOM, and convert to nifti.
