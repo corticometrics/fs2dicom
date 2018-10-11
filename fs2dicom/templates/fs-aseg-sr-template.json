@@ -15,8 +15,9 @@
   ],
 
   "observerContext": {
-    "ObserverType": "PERSON",
-    "PersonObserverName": "Reader1"
+    "ObserverType": "DEVICE",
+    "DeviceObserverName": "FreeSurfer v6.0.1",
+    "DeviceObserverManufacturer": "MGH"
   },
 
   "VerificationFlag": "VERIFIED",
