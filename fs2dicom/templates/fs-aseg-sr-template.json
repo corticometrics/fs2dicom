@@ -39,22 +39,17 @@
       "FindingSite": { {% for k in measurement.SegmentedPropertyTypeCodeSequence %}{% if loop.last %}
         "{{ k }}": "{{ measurement.SegmentedPropertyTypeCodeSequence[k] }}"{% else %}
         "{{ k }}": "{{ measurement.SegmentedPropertyTypeCodeSequence[k] }}",{% endif %}{% endfor %}
-      },
-      {% if measurement.SegmentedPropertyTypeModifierCodeSequence is defined -%}
-      {% if measurement.SegmentedPropertyTypeModifierCodeSequence.CodeValue == "G-A101" -%}
+      },{% if measurement.SegmentedPropertyTypeModifierCodeSequence is defined -%}{% if measurement.SegmentedPropertyTypeModifierCodeSequence.CodeValue == "G-A101" %}
       "Laterality": {
         "CodeValue": "G-A101",
         "CodingSchemeDesignator": "SRT",
         "CodeMeaning": "Left"
-      },
-      {% elif measurement.SegmentedPropertyTypeModifierCodeSequence.CodeValue == "G-A100" -%}
+      },{% elif measurement.SegmentedPropertyTypeModifierCodeSequence.CodeValue == "G-A100" %}
       "Laterality": {
         "CodeValue": "G-A100",
         "CodingSchemeDesignator": "SRT",
         "CodeMeaning": "Right"
-      },
-      {%- endif %}
-      {%- endif %}
+      },{%- endif %}{%- endif %}
       "measurementItems": [
         {
           "value": "{{ aseg_stats_data[aseg_stats_data.SegId==measurement.labelID].Volume_mm3.values[0] }}",
