@@ -16,7 +16,8 @@
 
   "observerContext": {
     "ObserverType": "DEVICE",
-    "DeviceObserverName": "FreeSurfer v6.0.1",
+    "DeviceObserverName": "FreeSurfer",
+    "DeviceObserverModelName": "v6.0.1",
     "DeviceObserverManufacturer": "MGH"
   },
 
