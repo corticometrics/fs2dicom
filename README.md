@@ -144,9 +144,9 @@ tid1500writer \
   --inputMetadata fs-aseg-sr.json  # created in previous step
 ```
 More information can be found here:
-- [Instructions](https://qiicr.gitbooks.io/dcmqi-guide/user_guide/tid1500writer.html)
-- [example json](https://github.com/QIICR/dcmqi/blob/master/doc/examples/sr-tid1500-ct-liver-example.json)
-- [aseg-specific example](examples/fs-aseg-sr-template.json)
+- [`tid1500writer` user guide](https://qiicr.gitbooks.io/dcmqi-guide/user_guide/tid1500writer.html)
+- [example `--inputMetadata` json file](https://github.com/QIICR/dcmqi/blob/master/doc/examples/sr-tid1500-ct-liver-example.json)
+- [aseg-specific example `--inputMetadata` json file](examples/fs-aseg-sr.json)
   - Subject-specific modifications
     - `"compositeContext"` needs to point to DICOM-SEG object
     - `"imageLibrary"` needs to point to list of source MPRAGE dicoms
