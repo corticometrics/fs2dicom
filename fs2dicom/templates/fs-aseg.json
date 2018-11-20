@@ -3,10 +3,11 @@
   "ContentCreatorName": "FreeSurfer 6.0",
   "ClinicalTrialSeriesID": "Session1",
   "ClinicalTrialTimePointID": "1",
+  "ClinicalTrialCoordinatingCenterName": "",
   "SeriesDescription": "Segmentation",
   "SeriesNumber": "300",
   "InstanceNumber": "1",
-  "BodyPartExamined": "Brain",
+  "BodyPartExamined": "BRAIN",
   "segmentAttributes": [
     [
       {
@@ -31,7 +32,7 @@
         "SegmentAlgorithmName": "FreeSurfer",
         "recommendedDisplayRGBValue": [
           245,
-          45,
+          245,
           245
         ]
       },
