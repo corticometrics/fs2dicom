@@ -3,10 +3,11 @@
   "ContentCreatorName": "FreeSurfer 6.0",
   "ClinicalTrialSeriesID": "Session1",
   "ClinicalTrialTimePointID": "1",
+  "ClinicalTrialCoordinatingCenterName": "",
   "SeriesDescription": "Segmentation",
   "SeriesNumber": "300",
   "InstanceNumber": "1",
-  "BodyPartExamined": "Brain",
+  "BodyPartExamined": "BRAIN",
   "segmentAttributes": [
     [
       {
@@ -31,7 +32,7 @@
         "SegmentAlgorithmName": "FreeSurfer",
         "recommendedDisplayRGBValue": [
           245,
-          45,
+          245,
           245
         ]
       },
@@ -96,9 +97,9 @@
           "CodeMeaning": "Anatomical Structure"
         },
         "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-A1721",
+          "CodeValue": "T-A1720",
           "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Inferior Horn of Lateral ventricle"
+          "CodeMeaning": "Structure of inferior horn of lateral ventricle (body structure)"
         },
         "SegmentedPropertyTypeModifierCodeSequence": {
           "CodeValue": "G-A101",
@@ -148,9 +149,9 @@
           "CodeMeaning": "Anatomical Structure"
         },
         "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-A6041",
+          "CodeValue": "T-A6040",
           "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Cerebellar Cortex"
+          "CodeMeaning": "Cerebellar cortex structure (body structure)"
         },
         "SegmentedPropertyTypeModifierCodeSequence": {
           "CodeValue": "G-A101",
@@ -466,9 +467,9 @@
           "CodeMeaning": "Anatomical Structure"
         },
         "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-40501",
+          "CodeValue": "T-D0767",
           "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Blood Vessel of Head"
+          "CodeMeaning": "Vascular structure of head (body structure)"
         },
         "SegmentedPropertyTypeModifierCodeSequence": {
           "CodeValue": "G-A101",
@@ -492,9 +493,9 @@
           "CodeMeaning": "Anatomical Structure"
         },
         "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "242811",
-          "CodingSchemeDesignator": "FMA",
-          "CodeMeaning": "Epithelium of choroid plexus"
+          "CodeValue": "T-A1900",
+          "CodingSchemeDesignator": "SRT",
+          "CodeMeaning": "Choroid plexus"
         },
         "SegmentedPropertyTypeModifierCodeSequence": {
           "CodeValue": "G-A101",
@@ -596,9 +597,9 @@
           "CodeMeaning": "Anatomical Structure"
         },
         "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-A1721",
+          "CodeValue": "T-A1720",
           "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Inferior Horn of Lateral ventricle"
+          "CodeMeaning": "Structure of inferior horn of lateral ventricle (body structure)"
         },
         "SegmentedPropertyTypeModifierCodeSequence": {
           "CodeValue": "G-A100",
@@ -648,9 +649,9 @@
           "CodeMeaning": "Anatomical Structure"
         },
         "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-A6041",
+          "CodeValue": "T-A6040",
           "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Cerebellar Cortex"
+          "CodeMeaning": "Cerebellar cortex structure (body structure)"
         },
         "SegmentedPropertyTypeModifierCodeSequence": {
           "CodeValue": "G-A100",
@@ -882,9 +883,9 @@
           "CodeMeaning": "Anatomical Structure"
         },
         "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "T-40501",
+          "CodeValue": "T-D0767",
           "CodingSchemeDesignator": "SRT",
-          "CodeMeaning": "Blood Vessel of Head"
+          "CodeMeaning": "Vascular structure of head (body structure)"
         },
         "SegmentedPropertyTypeModifierCodeSequence": {
           "CodeValue": "G-A100",
@@ -908,9 +909,9 @@
           "CodeMeaning": "Anatomical Structure"
         },
         "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "242811",
-          "CodingSchemeDesignator": "FMA",
-          "CodeMeaning": "Epithelium of choroid plexus"
+          "CodeValue": "T-A1900",
+          "CodingSchemeDesignator": "SRT",
+          "CodeMeaning": "Choroid plexus"
         },
         "SegmentedPropertyTypeModifierCodeSequence": {
           "CodeValue": "G-A100",
@@ -1101,8 +1102,8 @@
           "CodeMeaning": "Anatomical Structure"
         },
         "SegmentedPropertyTypeCodeSequence": {
-          "CodeValue": "62045",
-          "CodingSchemeDesignator": "FMA",
+          "CodeValue": "T-A800B",
+          "CodingSchemeDesignator": "SRT",
           "CodeMeaning": "Optic chiasm"
         },
         "SegmentAlgorithmType": "AUTOMATIC",
