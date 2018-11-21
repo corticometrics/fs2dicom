@@ -103,7 +103,6 @@ def get_t1_dicom_files_dict(t1_dicom_file):
 
 
 def generate_aseg_dicom_sr_metadata(dicom_sr_template,
-                                    aseg_dicom_seg_metadata_file,
                                     aseg_dicom_seg_file,
                                     t1_dicom_file,
                                     aseg_dicom_sr_metadata,
@@ -126,7 +125,7 @@ def generate_aseg_dicom_sr_metadata(dicom_sr_template,
 
     dicom_seg_instance_uid = get_dicom_tag_value(aseg_dicom_seg_file, SeriesInstanceUID)
 
-    aseg_dicom_seg_metadata = pydicom.read_file(aseg_dicom_seg_file)
+    aseg_dicom_seg = pydicom.read_file(aseg_dicom_seg_file)
     aseg_stats_data = get_aseg_stats_dataframe(aseg_stats_file)
 
     env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_path))
@@ -135,7 +134,7 @@ def generate_aseg_dicom_sr_metadata(dicom_sr_template,
                      't1_dicom_files': t1_dicom_files,
                      't1_dicom_series_instance_uid': t1_dicom_series_instance_uid,
                      'dicom_seg_instance_uid': dicom_seg_instance_uid,
-                     'aseg_dicom_seg_metadata': aseg_dicom_seg_metadata,
+                     'aseg_dicom_seg': aseg_dicom_seg,
                      'aseg_stats_data': aseg_stats_data}
 
     template.stream(template_vars).dump(aseg_dicom_sr_metadata)

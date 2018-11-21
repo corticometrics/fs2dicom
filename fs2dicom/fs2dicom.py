@@ -253,7 +253,6 @@ def create_sr(ctx,
     docker_user_string = utils.get_docker_user(aseg_stats_file)
 
     sr.generate_aseg_dicom_sr_metadata(sr_template,
-                                       seg_metadata,
                                        aseg_dicom_seg_file,
                                        t1_dicom_file,
                                        sr_metadata_output,

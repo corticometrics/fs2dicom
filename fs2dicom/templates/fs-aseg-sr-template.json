@@ -26,7 +26,7 @@
   "activitySession": "1",
   "timePoint": "1",
 
-  "Measurements": [{%- for measurement in aseg_dicom_seg_metadata[(6422530)] %}
+  "Measurements": [{%- for measurement in aseg_dicom_seg[(6422530)] %}
     {
       "TrackingIdentifier": "{{ measurement[(6422534)].value }}",
       "ReferencedSegment": {{ measurement[(6422532)].value }},
