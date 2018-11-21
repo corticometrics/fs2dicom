@@ -54,7 +54,7 @@ def run_docker_commands(docker_image,
                         user,
                         environment=None,
                         working_dir=os.getcwd(),
-                        pull=False):
+                        pull=True):
     client = docker.from_env()
 
     if pull:
