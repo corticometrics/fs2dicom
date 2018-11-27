@@ -11,11 +11,10 @@ Currently, only [`aseg.mgz`](http://surfer.nmr.mgh.harvard.edu/fswiki/Subcortica
 Note: future updates should be able to remove the FreeSurfer dependency, and replace its functionality with python-based tools.
 
 ## Installation
-Clone the repo, cd into it, and run:
+
 ```
-pip install -e .
+pip install fs2dicom
 ```
-This will install all python requirements needed to run `fs2dicom` (listed in `requirements.txt`). 
 
 ## Usage
 ### `fs2dicom` base options
