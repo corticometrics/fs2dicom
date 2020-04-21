@@ -151,3 +151,9 @@ More information can be found here:
     - `"imageLibrary"` needs to point to list of source MPRAGE dicoms
     - `"Measurements"->"measurementItems"-"value"` needs to be harvested from `aseg.stats`
     - `"Measurements"->"SourceSeriesForImageSegmentation"` needs to be set to the DICOM "Series Instance UID Attribute" (0020,000E)
+
+## Acknowledgments
+
+This work has been partially funded by the following NIH grants
+  - R42CA183150
+  - R42AG062026
