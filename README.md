@@ -152,8 +152,16 @@ More information can be found here:
     - `"Measurements"->"measurementItems"-"value"` needs to be harvested from `aseg.stats`
     - `"Measurements"->"SourceSeriesForImageSegmentation"` needs to be set to the DICOM "Series Instance UID Attribute" (0020,000E)
 
+## Roadmap
+- Remove FreeSurfer dependencies
+- Make it easier to support other input files
+  - Use templating so any input image with corresponding lookup table can output DICOM files
+- Expand to create other output file types
+  - Create FHIR JSON ouput as well as DICOM-SR, for example 
+
 ## Acknowledgments
 
 This work has been partially funded by the following NIH grants
   - R42CA183150
   - R42AG062026
+  - R43EB030910
